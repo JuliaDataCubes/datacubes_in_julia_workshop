@@ -1,0 +1,126 @@
+[
+  {
+    "objectID": "intro.html#multiple-dispatch",
+    "href": "intro.html#multiple-dispatch",
+    "title": "Introduction to Julia",
+    "section": "Multiple Dispatch",
+    "text": "Multiple Dispatch",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Introduction to Julia"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Big Data from Space 2023 Julia Tutorial",
+    "section": "",
+    "text": "This is the website of the “Large Raster data handling with Julia tutorial” at the BiDS 2023 conference.\nIn this tutorial we will explore how to analyse raster data which is larger than RAM."
+  },
+  {
+    "objectID": "index.html#preparation",
+    "href": "index.html#preparation",
+    "title": "Big Data from Space 2023 Julia Tutorial",
+    "section": "Preparation",
+    "text": "Preparation\nTo participate in the hands-on parts of the tutorial please install Julia on your device. We recommend to use the juliaup installer for julia.\n\nWindowsMac or Linux\n\n\nYou can install juliaup via the windows store or by executing\nwinget install julia -s msstore\n\n\nTo install juliaup in Linux or Mac execute the following in a shell\ncurl -fsSL https://install.julialang.org | sh"
+  },
+  {
+    "objectID": "index.html#schedule",
+    "href": "index.html#schedule",
+    "title": "Big Data from Space 2023 Julia Tutorial",
+    "section": "Schedule",
+    "text": "Schedule\n\n\n\nTime\nTopic\n\n\n\n\n14:00\nIntroduction to Julia\n\n\n14:30\nJulia Geo Ecosystem\n\n\n15:00\nRaster Data Loading\n\n\n15:30\nCoffee Break\n\n\n15:50\nRaster data analysis\n\n\n16:10\nHands-On Challenge\n\n\n\nThis timeline is purely approximative and given for indication purpose only. We will adjust depending on the audience. There will be additional breaks (5 minutes) regurlarly and time for questions during the workshop.\n\nThis is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "intro-repl.html",
+    "href": "intro-repl.html",
+    "title": "Working in the REPL",
+    "section": "",
+    "text": "For a more in depth introduction and more tips and tricks see the REPL Mastery workshop from JuliaCon 2022.",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Working in the REPL"
+    ]
+  },
+  {
+    "objectID": "intro-repl.html#different-repl-modes",
+    "href": "intro-repl.html#different-repl-modes",
+    "title": "Working in the REPL",
+    "section": "",
+    "text": "For a more in depth introduction and more tips and tricks see the REPL Mastery workshop from JuliaCon 2022.",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Working in the REPL"
+    ]
+  },
+  {
+    "objectID": "chunking.html#how-to-deal-with-chunked-data",
+    "href": "chunking.html#how-to-deal-with-chunked-data",
+    "title": "Chunking: Why and how?",
+    "section": "How to deal with chunked data?",
+    "text": "How to deal with chunked data?",
+    "crumbs": [
+      "Home",
+      "Raster data handling",
+      "Chunking: Why and how?"
+    ]
+  },
+  {
+    "objectID": "chunking.html#what-is-the-influence-of-chunking-on-my-analysis",
+    "href": "chunking.html#what-is-the-influence-of-chunking-on-my-analysis",
+    "title": "Chunking: Why and how?",
+    "section": "What is the influence of chunking on my analysis?",
+    "text": "What is the influence of chunking on my analysis?\n\nFurther reading\nSee the chunking tutorial at [Linas Tutorial] for an in depth explanation of chunking and to see the differences of different chunking regimes.",
+    "crumbs": [
+      "Home",
+      "Raster data handling",
+      "Chunking: Why and how?"
+    ]
+  },
+  {
+    "objectID": "intro-pkg.html#package-handling",
+    "href": "intro-pkg.html#package-handling",
+    "title": "Introduction to the Package Manager",
+    "section": "Package handling",
+    "text": "Package handling\n\nFurther reading",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Package Manager"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This site is the tutorial for raster data handling in Julia. This tutorial is going to be held at the Big Data from Space (BiDS) 2023 conference in Vienna."
+  },
+  {
+    "objectID": "rasterdata.html#loading-zarr-data-from-the-web",
+    "href": "rasterdata.html#loading-zarr-data-from-the-web",
+    "title": "Raster data handling",
+    "section": "Loading Zarr data from the Web",
+    "text": "Loading Zarr data from the Web\nThe data that we are working with is often available in the Zarr format. The Zarr format can be loaded from the cloud or from local computers.",
+    "crumbs": [
+      "Home",
+      "Julia Geo Ecosystem",
+      "Raster data handling"
+    ]
+  },
+  {
+    "objectID": "rasterdata.html#combining-multiple-tiff-files-into-a-data-cube",
+    "href": "rasterdata.html#combining-multiple-tiff-files-into-a-data-cube",
+    "title": "Raster data handling",
+    "section": "Combining multiple Tiff files into a data cube",
+    "text": "Combining multiple Tiff files into a data cube",
+    "crumbs": [
+      "Home",
+      "Julia Geo Ecosystem",
+      "Raster data handling"
+    ]
+  }
+]
