@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Geospatial data cubes in Julia workshop – Big Data from Space 2023 Julia Tutorial</title>
+<title>Geospatial data cubes in Julia workshop</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -141,7 +141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Big Data from Space 2023 Julia Tutorial</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Geospatial data cubes in Julia workshop</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -240,8 +240,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#preparation" id="toc-preparation" class="nav-link active" data-scroll-target="#preparation">Preparation</a></li>
-  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a></li>
+  <li><a href="#preparation" id="toc-preparation" class="nav-link active" data-scroll-target="#preparation">Preparation</a>
+  <ul class="collapse">
+  <li><a href="#installation-of-julia" id="toc-installation-of-julia" class="nav-link" data-scroll-target="#installation-of-julia">Installation of Julia</a></li>
+  <li><a href="#instantiation-of-an-initial-environment" id="toc-instantiation-of-an-initial-environment" class="nav-link" data-scroll-target="#instantiation-of-an-initial-environment">Instantiation of an initial environment</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -250,7 +253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Big Data from Space 2023 Julia Tutorial</h1>
+<h1 class="title">Geospatial data cubes in Julia workshop</h1>
 </div>
 
 
@@ -267,11 +270,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This is the website of the “Large Raster data handling with Julia tutorial” at the BiDS 2023 conference.</p>
+<p>This is the website of the “Geospatial data cubes in Julia workshop”.</p>
 <p>In this tutorial we will explore how to analyse raster data which is larger than RAM.</p>
 <section id="preparation" class="level2">
 <h2 class="anchored" data-anchor-id="preparation">Preparation</h2>
-<p>To participate in the hands-on parts of the tutorial please install Julia on your device. We recommend to use the <a href="https://github.com/JuliaLang/juliaup">juliaup</a> installer for julia.</p>
+<p>To participate in the hands-on parts of the tutorial please install Julia on your device and instantiate a first environment to make sure that most Julia packages are already downloaded on your computer.</p>
+<section id="installation-of-julia" class="level3">
+<h3 class="anchored" data-anchor-id="installation-of-julia">Installation of Julia</h3>
+<p>We recommend to use the <a href="https://github.com/JuliaLang/juliaup">juliaup</a> installer for julia.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Mac or Linux</a></li></ul>
 <div class="tab-content">
@@ -286,48 +292,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="schedule" class="level2">
-<h2 class="anchored" data-anchor-id="schedule">Schedule</h2>
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Time</th>
-<th style="text-align: left;">Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">14:00</td>
-<td style="text-align: left;">Introduction to Julia</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">14:30</td>
-<td style="text-align: left;">Julia Geo Ecosystem</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">15:00</td>
-<td style="text-align: left;">Raster Data Loading</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">15:30</td>
-<td style="text-align: left;">Coffee Break</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">15:50</td>
-<td style="text-align: left;">Raster data analysis</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">16:10</td>
-<td style="text-align: left;">Hands-On Challenge</td>
-</tr>
-</tbody>
-</table>
-<p>This timeline is purely approximative and given for indication purpose only. We will adjust depending on the audience. There will be additional breaks (5 minutes) regurlarly and time for questions during the workshop.</p>
+<section id="instantiation-of-an-initial-environment" class="level3">
+<h3 class="anchored" data-anchor-id="instantiation-of-an-initial-environment">Instantiation of an initial environment</h3>
+<p>For the workshop we are going to use the environment that is available of the examples folder. You can instantiate this environment by downloading the Project.toml file from https://github.com/JuliaDataCubes/datacubes_in_julia_workshop/blob/main/examples/Project.toml and saving it in a new folder. Then we can start julia in this folder from the terminal and switch to the package mode by typing <code>]</code>.</p>
+<p>We then have to first switch to the environment in the current folder by doing</p>
+<pre><code>activate .</code></pre>
+<p>And then we can download all dependencies by instantiating the environment via this command:</p>
+<pre><code>instantiate</code></pre>
 <hr>
 <p>This is a Quarto website.</p>
 <p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -423,7 +400,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/JuliaDataCubes\.github\.io\/datacubes_in_julia_workshop\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

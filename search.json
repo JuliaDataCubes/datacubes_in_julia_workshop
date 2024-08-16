@@ -14,23 +14,16 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Big Data from Space 2023 Julia Tutorial",
+    "title": "Geospatial data cubes in Julia workshop",
     "section": "",
-    "text": "This is the website of the “Large Raster data handling with Julia tutorial” at the BiDS 2023 conference.\nIn this tutorial we will explore how to analyse raster data which is larger than RAM."
+    "text": "This is the website of the “Geospatial data cubes in Julia workshop”.\nIn this tutorial we will explore how to analyse raster data which is larger than RAM."
   },
   {
     "objectID": "index.html#preparation",
     "href": "index.html#preparation",
-    "title": "Big Data from Space 2023 Julia Tutorial",
+    "title": "Geospatial data cubes in Julia workshop",
     "section": "Preparation",
-    "text": "Preparation\nTo participate in the hands-on parts of the tutorial please install Julia on your device. We recommend to use the juliaup installer for julia.\n\nWindowsMac or Linux\n\n\nYou can install juliaup via the windows store or by executing\nwinget install julia -s msstore\n\n\nTo install juliaup in Linux or Mac execute the following in a shell\ncurl -fsSL https://install.julialang.org | sh"
-  },
-  {
-    "objectID": "index.html#schedule",
-    "href": "index.html#schedule",
-    "title": "Big Data from Space 2023 Julia Tutorial",
-    "section": "Schedule",
-    "text": "Schedule\n\n\n\nTime\nTopic\n\n\n\n\n14:00\nIntroduction to Julia\n\n\n14:30\nJulia Geo Ecosystem\n\n\n15:00\nRaster Data Loading\n\n\n15:30\nCoffee Break\n\n\n15:50\nRaster data analysis\n\n\n16:10\nHands-On Challenge\n\n\n\nThis timeline is purely approximative and given for indication purpose only. We will adjust depending on the audience. There will be additional breaks (5 minutes) regurlarly and time for questions during the workshop.\n\nThis is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "Preparation\nTo participate in the hands-on parts of the tutorial please install Julia on your device and instantiate a first environment to make sure that most Julia packages are already downloaded on your computer.\n\nInstallation of Julia\nWe recommend to use the juliaup installer for julia.\n\nWindowsMac or Linux\n\n\nYou can install juliaup via the windows store or by executing\nwinget install julia -s msstore\n\n\nTo install juliaup in Linux or Mac execute the following in a shell\ncurl -fsSL https://install.julialang.org | sh\n\n\n\n\n\nInstantiation of an initial environment\nFor the workshop we are going to use the environment that is available of the examples folder. You can instantiate this environment by downloading the Project.toml file from https://github.com/JuliaDataCubes/datacubes_in_julia_workshop/blob/main/examples/Project.toml and saving it in a new folder. Then we can start julia in this folder from the terminal and switch to the package mode by typing ].\nWe then have to first switch to the environment in the current folder by doing\nactivate .\nAnd then we can download all dependencies by instantiating the environment via this command:\ninstantiate\n\nThis is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   },
   {
     "objectID": "intro-repl.html",
