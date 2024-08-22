@@ -44,7 +44,11 @@
     "href": "intro_ndarrays.html#contrast-to-databases",
     "title": "Basics of multidimensional data analysis",
     "section": "Contrast to databases",
-    "text": "Contrast to databases"
+    "text": "Contrast to databases",
+    "crumbs": [
+      "Home",
+      "Basics of multidimensional data analysis"
+    ]
   },
   {
     "objectID": "intro-pkg.html#package-handling",
