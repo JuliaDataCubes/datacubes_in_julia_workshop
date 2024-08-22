@@ -26,27 +26,36 @@
     "text": "Preparation\nTo participate in the hands-on parts of the tutorial please install Julia on your device and instantiate a first environment to make sure that most Julia packages are already downloaded on your computer.\n\nInstallation of Julia\nWe recommend to use the juliaup installer for julia.\n\nWindowsMac or Linux\n\n\nYou can install juliaup via the windows store or by executing\nwinget install julia -s msstore\n\n\nTo install juliaup in Linux or Mac execute the following in a shell\ncurl -fsSL https://install.julialang.org | sh\n\n\n\n\n\nInstantiation of an initial environment\nFor the workshop we are going to use the environment that is available of the examples folder.\n\nManual downloadUse git\n\n\nYou can download the Project.toml file from https://github.com/JuliaDataCubes/datacubes_in_julia_workshop/blob/main/examples/Project.toml manually and save it in a new folder. Then change in a terminal to this folder.\n\n\nUse git to download the whole workshop material.\ngit clone https://github.com/JuliaDataCubes/datacubes_in_julia_workshop/\nChange to the examples folder in the datacubes_in_julia_workshop folder.\n\n\n\nNow that we have the Project.toml file downloaded we can run the following line in the terminal from the folder in which the Project.toml is located.\njulia -e 'using Pkg;Pkg.activate(\".\");Pkg.resolve();Pkg.precompile()'"
   },
   {
-    "objectID": "intro-repl.html",
-    "href": "intro-repl.html",
-    "title": "Working in the REPL",
-    "section": "",
-    "text": "For a more in depth introduction and more tips and tricks see the REPL Mastery workshop from JuliaCon 2022.",
-    "crumbs": [
-      "Home",
-      "Julia Introduction",
-      "Working in the REPL"
-    ]
+    "objectID": "index.html#day-1",
+    "href": "index.html#day-1",
+    "title": "Geospatial data cubes in Julia workshop",
+    "section": "Day 1",
+    "text": "Day 1\n\n\n\nTime\nTopic\n\n\n\n\n9:00\nIntroduction to Datacube analysis\n\n\n9:30\nIntroduction to Julia\n\n\n10:30\nBreak\n\n\n10:50\nExercise time series analysis + plotting"
   },
   {
-    "objectID": "intro-repl.html#different-repl-modes",
-    "href": "intro-repl.html#different-repl-modes",
-    "title": "Working in the REPL",
-    "section": "",
-    "text": "For a more in depth introduction and more tips and tricks see the REPL Mastery workshop from JuliaCon 2022.",
+    "objectID": "index.html#day-2",
+    "href": "index.html#day-2",
+    "title": "Geospatial data cubes in Julia workshop",
+    "section": "Day 2",
+    "text": "Day 2\n\n\n\nTime\nTopic\n\n\n\n\n9:00\nIntroduction to YAXArrays.jl\n\n\n9:45\nExercise YAXArrays\n\n\n10:15\nBreak\n\n\n10:30\nExcursion datacubes in python\n\n\n10:45\nData preparation\n\n\n11:15\nPyramidScheme.jl"
+  },
+  {
+    "objectID": "intro_ndarrays.html#contrast-to-databases",
+    "href": "intro_ndarrays.html#contrast-to-databases",
+    "title": "Basics of multidimensional data analysis",
+    "section": "Contrast to databases",
+    "text": "Contrast to databases"
+  },
+  {
+    "objectID": "intro-pkg.html#package-handling",
+    "href": "intro-pkg.html#package-handling",
+    "title": "Introduction to the Package Manager",
+    "section": "Package handling",
+    "text": "Package handling\n\nFurther reading",
     "crumbs": [
       "Home",
       "Julia Introduction",
-      "Working in the REPL"
+      "Package Manager"
     ]
   },
   {
@@ -74,15 +83,27 @@
     ]
   },
   {
-    "objectID": "intro-pkg.html#package-handling",
-    "href": "intro-pkg.html#package-handling",
-    "title": "Introduction to the Package Manager",
-    "section": "Package handling",
-    "text": "Package handling\n\nFurther reading",
+    "objectID": "intro-repl.html",
+    "href": "intro-repl.html",
+    "title": "Working in the REPL",
+    "section": "",
+    "text": "For a more in depth introduction and more tips and tricks see the REPL Mastery workshop from JuliaCon 2022.",
     "crumbs": [
       "Home",
       "Julia Introduction",
-      "Package Manager"
+      "Working in the REPL"
+    ]
+  },
+  {
+    "objectID": "intro-repl.html#different-repl-modes",
+    "href": "intro-repl.html#different-repl-modes",
+    "title": "Working in the REPL",
+    "section": "",
+    "text": "For a more in depth introduction and more tips and tricks see the REPL Mastery workshop from JuliaCon 2022.",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Working in the REPL"
     ]
   },
   {

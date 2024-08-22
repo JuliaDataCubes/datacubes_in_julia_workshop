@@ -6,18 +6,14 @@
   </url>
   <url>
     <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/index.html</loc>
-    <lastmod>2024-08-19T11:38:14.916Z</lastmod>
+    <lastmod>2024-08-21T08:51:02.586Z</lastmod>
   </url>
   <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-repl.html</loc>
-    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro_ndarrays.html</loc>
+    <lastmod>2024-08-22T08:58:39.560Z</lastmod>
   </url>
   <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/chunking.html</loc>
-    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
-  </url>
-  <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-pkg.html</loc>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/vectordata.html</loc>
     <lastmod>2024-08-16T12:56:50.742Z</lastmod>
   </url>
   <url>
@@ -25,7 +21,15 @@
     <lastmod>2024-08-16T12:56:50.742Z</lastmod>
   </url>
   <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/vectordata.html</loc>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-pkg.html</loc>
+    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/chunking.html</loc>
+    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-repl.html</loc>
     <lastmod>2024-08-16T12:56:50.742Z</lastmod>
   </url>
   <url>
