@@ -7,7 +7,9 @@
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.29">
 
   <meta name="author" content="Felix Cremer, Fabian Gans">
@@ -449,6 +451,11 @@ Figure&nbsp;1: Different chunking structures
 </div>
 </section>
 
+<section id="datacube-analysis" class="title-slide slide level1 center">
+<h1>Datacube analysis</h1>
+
+</section>
+
 <section>
 <section id="concept-of-multidimensional-array-storage" class="title-slide slide level1 center">
 <h1>Concept of multidimensional array storage</h1>
@@ -457,11 +464,23 @@ Figure&nbsp;1: Different chunking structures
 <section id="contrast-to-databases" class="slide level2">
 <h2>Contrast to databases</h2>
 </section></section>
+<section>
 <section id="pyramids" class="title-slide slide level1 center">
 <h1>Pyramids</h1>
-<div id="2" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="im">using</span> <span class="bu">PyramidScheme</span></span>
+<span id="cb1-2"><a></a><span class="im">using</span> <span class="bu">Rasters</span>, <span class="bu">RasterDataSources</span></span>
+<span id="cb1-3"><a></a><span class="im">using</span> <span class="bu">ArchGDAL</span></span>
+<span id="cb1-4"><a></a>rastas <span class="op">=</span> <span class="fu">Raster</span>(CHELSA{Climate},<span class="op">:</span>tas, lazy<span class="op">=</span><span class="cn">true</span>, month<span class="op">=</span><span class="fl">1</span>)</span>
+<span id="cb1-5"><a></a>rastasscale <span class="op">=</span> rastas.metadata[<span class="st">"scale"</span>] <span class="op">.*</span> rastas <span class="op">.+</span> rastas.metadata[<span class="st">"offset"</span>]</span>
+<span id="cb1-6"><a></a>pyrtas <span class="op">=</span> <span class="fu">Pyramid</span>(rastasscale)</span>
+<span id="cb1-7"><a></a><span class="im">using</span> <span class="bu">GLMakie</span></span>
+<span id="cb1-8"><a></a><span class="fu">plot</span>(pyrtas, colormap<span class="op">=</span><span class="fu">Reverse</span>(<span class="op">:</span>RdYlBu))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="pyramid-example" class="slide level2">
+<h2>Pyramid example</h2>
+<video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="images/zoom.mp4"></video>
 
 <div class="quarto-auto-generated-content">
 <p><img src="images/logo2_mpi_nfdi4earth.png" class="slide-logo"></p>
@@ -469,7 +488,7 @@ Figure&nbsp;1: Different chunking structures
 
 </div>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
@@ -867,6 +886,7 @@ Figure&nbsp;1: Different chunking structures
       }
     });
     </script>
+    <script>videojs(video_shortcode_videojs_video1);</script>
     
 
 </body></html>

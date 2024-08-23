@@ -30,14 +30,14 @@
     "href": "index.html#day-1",
     "title": "Geospatial data cubes in Julia workshop",
     "section": "Day 1",
-    "text": "Day 1\n\n\n\nTime\nTopic\n\n\n\n\n9:00\nIntroduction to Datacube analysis\n\n\n9:30\nIntroduction to Julia\n\n\n10:30\nBreak\n\n\n10:50\nExercise time series analysis + plotting"
+    "text": "Day 1\n\n\n\nTime\nTopic\n\n\n\n\n9:00\nIntroduction to Datacube analysis\n\n\n9:30\nIntroduction to Julia\n\n\n10:30\nBreak\n\n\n10:50\nExercise: Time series analysis + plotting"
   },
   {
     "objectID": "index.html#day-2",
     "href": "index.html#day-2",
     "title": "Geospatial data cubes in Julia workshop",
     "section": "Day 2",
-    "text": "Day 2\n\n\n\nTime\nTopic\n\n\n\n\n9:00\nIntroduction to YAXArrays.jl\n\n\n9:45\nExercise YAXArrays\n\n\n10:15\nBreak\n\n\n10:30\nExcursion datacubes in python\n\n\n10:45\nData preparation\n\n\n11:15\nPyramidScheme.jl"
+    "text": "Day 2\n\n\n\nTime\nTopic\n\n\n\n\n9:00\nIntroduction to YAXArrays.jl\n\n\n9:45\nExercise: YAXArrays\n\n\n10:15\nBreak\n\n\n10:30\nExcursion: Datacubes in python\n\n\n10:45\nData preparation\n\n\n11:15\nPyramidScheme.jl"
   },
   {
     "objectID": "intro_ndarrays.html#contrast-to-databases",
@@ -45,6 +45,17 @@
     "title": "Basics of multidimensional data analysis",
     "section": "Contrast to databases",
     "text": "Contrast to databases",
+    "crumbs": [
+      "Home",
+      "Basics of multidimensional data analysis"
+    ]
+  },
+  {
+    "objectID": "intro_ndarrays.html#pyramid-example",
+    "href": "intro_ndarrays.html#pyramid-example",
+    "title": "Basics of multidimensional data analysis",
+    "section": "Pyramid example",
+    "text": "Pyramid example",
     "crumbs": [
       "Home",
       "Basics of multidimensional data analysis"
