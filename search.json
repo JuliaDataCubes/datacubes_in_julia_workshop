@@ -175,11 +175,77 @@
     ]
   },
   {
+    "objectID": "intro_ndarrays.html#data-structures",
+    "href": "intro_ndarrays.html#data-structures",
+    "title": "Basics of multidimensional data analysis",
+    "section": "Data structures",
+    "text": "Data structures\n\nESDL data cube image",
+    "crumbs": [
+      "Home",
+      "Basics of multidimensional data analysis"
+    ]
+  },
+  {
+    "objectID": "intro_ndarrays.html#data-formats",
+    "href": "intro_ndarrays.html#data-formats",
+    "title": "Basics of multidimensional data analysis",
+    "section": "Data formats",
+    "text": "Data formats\n\nGeotiff\nZarr\nNetCDF",
+    "crumbs": [
+      "Home",
+      "Basics of multidimensional data analysis"
+    ]
+  },
+  {
+    "objectID": "intro_ndarrays.html#chunking",
+    "href": "intro_ndarrays.html#chunking",
+    "title": "Basics of multidimensional data analysis",
+    "section": "Chunking",
+    "text": "Chunking\n\n\n\n\n\n\n\n\nSpatial chunking\n\n\n\n\n\n\n\nBox chunking\n\n\n\n\n\n\nFigure 1: Different chunking structures",
+    "crumbs": [
+      "Home",
+      "Basics of multidimensional data analysis"
+    ]
+  },
+  {
+    "objectID": "intro_ndarrays.html#datacube-analysis",
+    "href": "intro_ndarrays.html#datacube-analysis",
+    "title": "Basics of multidimensional data analysis",
+    "section": "Datacube analysis",
+    "text": "Datacube analysis",
+    "crumbs": [
+      "Home",
+      "Basics of multidimensional data analysis"
+    ]
+  },
+  {
+    "objectID": "intro_ndarrays.html#concept-of-multidimensional-array-storage",
+    "href": "intro_ndarrays.html#concept-of-multidimensional-array-storage",
+    "title": "Basics of multidimensional data analysis",
+    "section": "Concept of multidimensional array storage",
+    "text": "Concept of multidimensional array storage",
+    "crumbs": [
+      "Home",
+      "Basics of multidimensional data analysis"
+    ]
+  },
+  {
     "objectID": "intro_ndarrays.html#contrast-to-databases",
     "href": "intro_ndarrays.html#contrast-to-databases",
     "title": "Basics of multidimensional data analysis",
     "section": "Contrast to databases",
     "text": "Contrast to databases",
+    "crumbs": [
+      "Home",
+      "Basics of multidimensional data analysis"
+    ]
+  },
+  {
+    "objectID": "intro_ndarrays.html#pyramids",
+    "href": "intro_ndarrays.html#pyramids",
+    "title": "Basics of multidimensional data analysis",
+    "section": "Pyramids",
+    "text": "Pyramids\n\nusing PyramidScheme\nusing Rasters, RasterDataSources\nusing ArchGDAL\nrastas = Raster(CHELSA{Climate},:tas, lazy=true, month=1)\nrastasscale = rastas.metadata[\"scale\"] .* rastas .+ rastas.metadata[\"offset\"]\npyrtas = Pyramid(rastasscale)\nusing GLMakie\nplot(pyrtas, colormap=Reverse(:RdYlBu))",
     "crumbs": [
       "Home",
       "Basics of multidimensional data analysis"
