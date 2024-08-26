@@ -190,7 +190,7 @@
     "href": "intro_ndarrays.html#pyramid-example",
     "title": "Basics of multidimensional data analysis",
     "section": "Pyramid example",
-    "text": "Pyramid example",
+    "text": "Pyramid example\n\n\n\n\n\nDatacubes in Julia",
     "crumbs": [
       "Home",
       "Basics of multidimensional data analysis"
