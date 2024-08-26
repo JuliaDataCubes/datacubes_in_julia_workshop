@@ -1,35 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro.html</loc>
-    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/exercise_yaxarrays.html</loc>
+    <lastmod>2024-08-23T13:31:53.167Z</lastmod>
   </url>
   <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/index.html</loc>
-    <lastmod>2024-08-22T09:06:54.804Z</lastmod>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/excursion_python.html</loc>
+    <lastmod>2024-08-26T07:32:07.208Z</lastmod>
   </url>
   <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro_ndarrays.html</loc>
-    <lastmod>2024-08-23T11:25:17.887Z</lastmod>
-  </url>
-  <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/vectordata.html</loc>
-    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
-  </url>
-  <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-workflow.html</loc>
-    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
-  </url>
-  <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-pkg.html</loc>
-    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
-  </url>
-  <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/chunking.html</loc>
-    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
-  </url>
-  <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-repl.html</loc>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/rasterdata.html</loc>
     <lastmod>2024-08-16T12:56:50.742Z</lastmod>
   </url>
   <url>
@@ -37,7 +17,51 @@
     <lastmod>2024-08-19T11:38:43.648Z</lastmod>
   </url>
   <url>
-    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/rasterdata.html</loc>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/data_preparation.html</loc>
+    <lastmod>2024-08-26T07:31:58.903Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-repl.html</loc>
     <lastmod>2024-08-16T12:56:50.742Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/chunking.html</loc>
+    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro_YAXArrays.html</loc>
+    <lastmod>2024-08-23T13:30:13.055Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-pkg.html</loc>
+    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro-workflow.html</loc>
+    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/vectordata.html</loc>
+    <lastmod>2024-08-16T12:56:50.742Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/exercise_timeseries.html</loc>
+    <lastmod>2024-08-23T11:51:50.123Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro_ndarrays.html</loc>
+    <lastmod>2024-08-23T11:25:17.887Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/index.html</loc>
+    <lastmod>2024-08-22T09:06:54.804Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/pyramids.html</loc>
+    <lastmod>2024-08-26T07:32:30.498Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro_julia.html</loc>
+    <lastmod>2024-08-23T11:49:28.951Z</lastmod>
   </url>
 </urlset>

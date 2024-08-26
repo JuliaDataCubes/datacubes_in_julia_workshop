@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.29">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Geospatial data cubes in Julia workshop – General introduction to YAXArrays.jl and mapCube</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Geospatial data cubes in Julia workshop</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">General introduction to YAXArrays.jl and mapCube</li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro_ndarrays.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Basics of multidimensional data analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Julia Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+ <span class="menu-text">intro.qmd</span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro-repl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working in the REPL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro-pkg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Package Manager</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Julia Geo Ecosystem</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./vectordata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vector data handling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rasterdata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Raster data handling</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Raster data handling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chunking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chunking: Why and how?</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-mapcube-function" id="toc-the-mapcube-function" class="nav-link active" data-scroll-target="#the-mapcube-function">The <code>mapCube</code> function</a></li>
+  <li><a href="#apply-function-along-single-axis" id="toc-apply-function-along-single-axis" class="nav-link" data-scroll-target="#apply-function-along-single-axis">Apply function along single Axis</a></li>
+  <li><a href="#apply-function-on-all-elements" id="toc-apply-function-on-all-elements" class="nav-link" data-scroll-target="#apply-function-on-all-elements">Apply function on all elements</a></li>
+  <li><a href="#arguments-for-inner-function-and-output-dimensions" id="toc-arguments-for-inner-function-and-output-dimensions" class="nav-link" data-scroll-target="#arguments-for-inner-function-and-output-dimensions">Arguments for inner function and output dimensions</a></li>
+  <li><a href="#apply-function-with-multiple-output-cubes" id="toc-apply-function-with-multiple-output-cubes" class="nav-link" data-scroll-target="#apply-function-with-multiple-output-cubes">Apply function with multiple output cubes</a></li>
+  <li><a href="#apply-function-on-moving-window" id="toc-apply-function-on-moving-window" class="nav-link" data-scroll-target="#apply-function-on-moving-window">Apply function on moving window</a></li>
+  <li><a href="#define-new-output-dimensions" id="toc-define-new-output-dimensions" class="nav-link" data-scroll-target="#define-new-output-dimensions">Define new output dimensions</a></li>
+  <li><a href="#interpolate-data-on-finer-grids" id="toc-interpolate-data-on-finer-grids" class="nav-link" data-scroll-target="#interpolate-data-on-finer-grids">Interpolate data on finer grids</a></li>
+  <li><a href="#use-python-or-r-in-inner-function" id="toc-use-python-or-r-in-inner-function" class="nav-link" data-scroll-target="#use-python-or-r-in-inner-function">Use Python or R in inner function</a></li>
+  <li><a href="#parellelize-the-data-processing" id="toc-parellelize-the-data-processing" class="nav-link" data-scroll-target="#parellelize-the-data-processing">Parellelize the data processing</a></li>
+  <li><a href="#easy-parallelization-on-multiple-cores-and-multiple-nodes" id="toc-easy-parallelization-on-multiple-cores-and-multiple-nodes" class="nav-link" data-scroll-target="#easy-parallelization-on-multiple-cores-and-multiple-nodes">Easy parallelization on multiple cores and multiple nodes¶</a></li>
+  <li><a href="#creating-a-sar-data-cube-from-gdal-vrts" id="toc-creating-a-sar-data-cube-from-gdal-vrts" class="nav-link" data-scroll-target="#creating-a-sar-data-cube-from-gdal-vrts">Creating a SAR data cube from GDAL VRTs</a></li>
+  <li><a href="#yaxarrays-table-interface" id="toc-yaxarrays-table-interface" class="nav-link" data-scroll-target="#yaxarrays-table-interface">3. YAXArrays table-interface</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">General introduction to YAXArrays.jl and mapCube</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="05d898d0" class="cell" data-scrolled="true" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">"."</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">instantiate</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  Activating project at `~/Documents/BigDatafromSpace2023_quarto`</code></pre>
+</div>
+</div>
+<p>So far we have only used <code>mapslices</code> in this tutorial. However, this can only cover very simple cases for a single input cube and computations on one or dimensions which either collapse or return the same dimension.</p>
+<div id="13a19c65" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DimensionalData</span>, <span class="bu">YAXArrays</span>, <span class="bu">Zarr</span>, <span class="bu">NetCDF</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GLMakie</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="5c00fc06" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bucket <span class="op">=</span> <span class="st">"esdl-esdc-v3.0.2"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>store <span class="op">=</span> <span class="st">"esdc-16d-2.5deg-46x72x1440-3.0.2.zarr"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">"https://s3.bgc-jena.mpg.de:9000/"</span> <span class="op">*</span> bucket <span class="op">*</span> <span class="st">"/"</span> <span class="op">*</span> store</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fu">Cube</span>(<span class="fu">open_dataset</span>(<span class="fu">zopen</span>(path,consolidated<span class="op">=</span><span class="cn">true</span>,fill_as_missing<span class="op">=</span><span class="cn">true</span>)))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#c = Cube(joinpath(tutorialdir,"esdc_subset2.zarr"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="ansi-escaped-output">
+<pre>144×72×989×42 YAXArray{Union{Missing, Float32},4}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lon</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">-178.75:2.5:178.75</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lat</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">-88.75:2.5:88.75</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Ti</span> Sampled{DateTime} <span class="ansi-cyan-fg">DateTime[1979-01-09T00:00:00, …, 2021-12-27T00:00:00]</span> ForwardOrdered Irregular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Variable</span><span class="ansi-red-fg">}</span> Categorical{String} <span class="ansi-cyan-fg">String[sensible_heat, potential_evaporation, …, net_ecosystem_exchange, snow_sublimation]</span> Unordered
+units: mm d^-1
+Total size: 1.6 GB
+</pre>
+</div>
+</div>
+</div>
+<section id="the-mapcube-function" class="level2">
+<h2 class="anchored" data-anchor-id="the-mapcube-function">The <code>mapCube</code> function</h2>
+<p>is a generalization of mapslices, where you can annotate the exact signature of the function to be applied. For example the computation of the <code>median</code> over time can be written using <code>mapCube</code>. Here one hase to specify the dimension(s) that the user-defined function is going to operate on. For the computation of the median over time the only input dimension is <code>time</code> and there are no output dimensions as only a single value is returned. The user defined function passed to <code>mapCube</code> always has the signature <code>f(outputs..., inputs...)</code> and potentially followd by additional arguments and keyword args.</p>
+</section>
+<section id="apply-function-along-single-axis" class="level2">
+<h2 class="anchored" data-anchor-id="apply-function-along-single-axis">Apply function along single Axis</h2>
+<div id="fe328291" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Statistics</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>indims <span class="op">=</span> <span class="fu">InDims</span>(<span class="st">"time"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>outdims <span class="op">=</span> <span class="fu">OutDims</span>()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">apply_median</span>(xout, xin)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="fu">filter</span>(!ismissing, xin)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="fu">filter</span>(!isnan,x)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#@show x</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#filter!(!ismissing, x)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    xout[] <span class="op">=</span> <span class="fu">isempty</span>(x) ? <span class="cn">missing</span> <span class="op">:</span> <span class="fu">median</span>(x)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>apply_median (generic function with 1 method)</code></pre>
+</div>
+</div>
+<div id="91cea9e0" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>medians <span class="op">=</span> <span class="fu">mapCube</span>(apply_median, c[Variable<span class="op">=</span><span class="fu">Where</span>(<span class="fu">contains</span>(<span class="st">"temp"</span>))];indims, outdims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>┌ Warning: (Dim{:region},) dims were not found in object.
+└ @ DimensionalData.Dimensions /home/fcremer/.julia/packages/DimensionalData/STtQw/src/Dimensions/primitives.jl:736</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div class="ansi-escaped-output">
+<pre>144×72×3 YAXArray{Union{Missing, Float32},3}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lon</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">-178.75:2.5:178.75</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lat</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">-88.75:2.5:88.75</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Variable</span><span class="ansi-red-fg">}</span> Categorical{String} <span class="ansi-cyan-fg">String["max_air_temperature_2m", "air_temperature_2m", "min_air_temperature_2m"]</span> Unordered
+Total size: 121.5 KB
+</pre>
+</div>
+</div>
+</div>
+<div id="16da9d7e" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, ax, heat <span class="op">=</span> <span class="fu">heatmap</span>(<span class="fu">DimArray</span>(medians[Variable<span class="op">=</span><span class="fu">At</span>(<span class="st">"air_temperature_2m"</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="apply-function-on-all-elements" class="level2">
+<h2 class="anchored" data-anchor-id="apply-function-on-all-elements">Apply function on all elements</h2>
+<div id="1e0c0e18" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>medians_kelvin <span class="op">=</span> <span class="fu">map</span>(x<span class="op">-&gt;</span> x <span class="op">+</span> <span class="fl">273.15</span>, medians)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="ansi-escaped-output">
+<pre>144×72×3 YAXArray{Float64,3}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lon</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">-178.75:2.5:178.75</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lat</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">-88.75:2.5:88.75</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Variable</span><span class="ansi-red-fg">}</span> Categorical{String} <span class="ansi-cyan-fg">String["max_air_temperature_2m", "air_temperature_2m", "min_air_temperature_2m"]</span> Unordered
+Total size: 243.0 KB
+</pre>
+</div>
+</div>
+</div>
+<p>This function is applied lazily and only computed when the data is worked with. This could be a mapCube operation, saving the data to disk or plotting the data.</p>
+<div id="3bd753f6" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="fu">DimArray</span>(medians_kelvin[Variable<span class="op">=</span><span class="fu">At</span>(<span class="st">"air_temperature_2m"</span>), region<span class="op">=</span><span class="st">"Italy"</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>┌ Warning: (Dim{:region},) dims were not found in object.
+└ @ DimensionalData.Dimensions /home/fcremer/.julia/packages/DimensionalData/STtQw/src/Dimensions/primitives.jl:736</code></pre>
+</div>
+</div>
+</section>
+<section id="arguments-for-inner-function-and-output-dimensions" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-for-inner-function-and-output-dimensions">Arguments for inner function and output dimensions</h2>
+<p>Let’s make a slightly more complex computation to demonstrate a case where multiple outputs are generated. For examples, imagine we want to normalize every time series (to zero mean and unit variance), but at the same time return the means and variances in a single dataset for later re-use:</p>
+</section>
+<section id="apply-function-with-multiple-output-cubes" class="level2">
+<h2 class="anchored" data-anchor-id="apply-function-with-multiple-output-cubes">Apply function with multiple output cubes</h2>
+<div id="459ed57e" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">norm</span>(ts_out, mean_out, std_out, ts_in)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="fu">filter</span>(!ismissing, ts_in)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    tsshort <span class="op">=</span> <span class="fu">filter</span>(!isnan,x)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">isempty</span>(tsshort)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        ts_out <span class="op">.=</span> <span class="cn">missing</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        mean_out[] <span class="op">=</span> <span class="cn">missing</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        std_out[] <span class="op">=</span> <span class="cn">missing</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        mean_out[] <span class="op">=</span> <span class="fu">mean</span>(tsshort)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        std_out[] <span class="op">=</span> <span class="fu">std</span>(tsshort)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        ts_out <span class="op">.=</span> (ts_in <span class="op">.-</span> mean_out[])<span class="op">./</span>std_out[]</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>norm (generic function with 1 method)</code></pre>
+</div>
+</div>
+<div id="f5a3d6ce" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NetCDF</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>indims <span class="op">=</span> <span class="fu">InDims</span>(<span class="st">"Time"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>od_ts <span class="op">=</span> <span class="fu">OutDims</span>(<span class="st">"Time"</span>,path <span class="op">=</span> <span class="st">"./normalized_ts.zarr"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                backend<span class="op">=:</span>zarr,overwrite<span class="op">=</span><span class="cn">true</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>od_m <span class="op">=</span> <span class="fu">OutDims</span>(path <span class="op">=</span> <span class="st">"./means.nc"</span>,backend<span class="op">=:</span>netcdf, overwrite<span class="op">=</span><span class="cn">true</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>od_s <span class="op">=</span> <span class="fu">OutDims</span>(path <span class="op">=</span> <span class="st">"./stds.nc"</span>,backend<span class="op">=:</span>netcdf, overwrite<span class="op">=</span><span class="cn">true</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>outdims <span class="op">=</span> (od_ts, od_m, od_s)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>tsnorm, means, stds <span class="op">=</span> <span class="fu">mapCube</span>(norm,c[Variable<span class="op">=</span><span class="fu">Where</span>(<span class="fu">contains</span>(<span class="st">"temp"</span>))],indims<span class="op">=</span>indims, outdims<span class="op">=</span>outdims);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ddfee478" class="cell" data-scrolled="true" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="fu">DimArray</span>(stds[Variable<span class="op">=</span><span class="fu">At</span>(<span class="st">"air_temperature_2m"</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="apply-function-on-moving-window" class="level2">
+<h2 class="anchored" data-anchor-id="apply-function-on-moving-window">Apply function on moving window</h2>
+<div id="c04fec93" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">meanfilter</span>(xout, xin)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">ismissing</span>(xin[<span class="fl">2</span>,<span class="fl">2</span>])</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        xout <span class="op">.=</span> <span class="cn">missing</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    xout <span class="op">.=</span> <span class="fu">mean</span>(<span class="fu">skipmissing</span>(xin))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>meanfilter (generic function with 1 method)</code></pre>
+</div>
+</div>
+<div id="c04f402c" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>indims <span class="op">=</span> <span class="fu">InDims</span>(<span class="fu">MovingWindow</span>(<span class="st">"lon"</span>, <span class="fl">1</span>,<span class="fl">1</span>),<span class="fu">MovingWindow</span>(<span class="st">"lat"</span>, <span class="fl">1</span>, <span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>InDims((MovingWindow(YAXArrays.ByName("lon"), 1, 1), MovingWindow(YAXArrays.ByName("lat"), 1, 1)), Array, (YAXArrays.DAT.AllMissing(),), missing)</code></pre>
+</div>
+</div>
+<div id="922f8bbb" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="fu">DimArray</span>(means[Variable<span class="op">=</span><span class="fu">At</span>(<span class="st">"air_temperature_2m"</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ef89af29" class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>stds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="513d7a8d" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>filteredmeans <span class="op">=</span> <span class="fu">mapCube</span>(meanfilter, means, indims<span class="op">=</span>indims, outdims<span class="op">=</span><span class="fu">OutDims</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="ansi-escaped-output">
+<pre>144×72×3 YAXArray{Union{Missing, Float32},3}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lon</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">-178.75:2.5:178.75</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lat</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">-88.75:2.5:88.75</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Variable</span><span class="ansi-red-fg">}</span> Categorical{String} <span class="ansi-cyan-fg">String["max_air_temperature_2m", "air_temperature_2m", "min_air_temperature_2m"]</span> Unordered
+Total size: 121.5 KB
+</pre>
+</div>
+</div>
+</div>
+<div id="39c1fe80" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="fu">DimArray</span>(filteredmeans[Variable<span class="op">=</span><span class="fu">At</span>(<span class="st">"air_temperature_2m"</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="define-new-output-dimensions" class="level2">
+<h2 class="anchored" data-anchor-id="define-new-output-dimensions">Define new output dimensions</h2>
+<div id="ef0b504c" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Dates</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dateformatfun</span>(x) <span class="op">=</span> <span class="bu">Dates</span>.<span class="fu">format</span>.(<span class="fu">rata2datetime</span>.(x), <span class="st">"mm/dd/yyyy"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>gpp <span class="op">=</span> c[Variable<span class="op">=</span><span class="fu">At</span>(<span class="st">"gross_primary_productivity"</span>),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        time<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2001</span>)<span class="op">..</span><span class="fu">Date</span>(<span class="fl">2018</span>,<span class="fl">12</span>,<span class="fl">31</span>), </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>        lon<span class="op">=</span><span class="fu">Near</span>(<span class="fl">11.3464</span>),lat<span class="op">=</span><span class="fu">Near</span>(<span class="fl">46.4946</span>)]</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>fig,ax, pl <span class="op">=</span> <span class="fu">lines</span>(<span class="fu">datetime2rata</span>.(<span class="fu">lookup</span>(gpp, Ti).data),gpp.data)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>ax.xtickformat <span class="op">=</span> dateformatfun</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="81">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So far the function applied here were very simple statistics. Just to stress again, that we are running arbitrary Julia code here, so for example if we want to use some package for time series decomposition like <code>Forecast.jl</code>:</p>
+<div id="b903d72c" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="80">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Forecast</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>stlres <span class="op">=</span> <span class="fu">stl</span>(gpp.data[<span class="op">:</span>],<span class="fl">46</span>,robust<span class="op">=</span><span class="cn">true</span>,verbose<span class="op">=</span><span class="cn">false</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>            timestamp<span class="op">=</span><span class="fu">lookup</span>(gpp, Ti).data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>LoadError: UndefVarError: `tempbozen` not defined</code></pre>
+</div>
+</div>
+<div id="74fca228" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-execution_count="78">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_stlres</span>(t, org, stlres)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    axorg <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>,<span class="fl">1</span>], title<span class="op">=</span><span class="st">"Original data"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    axseas <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">2</span>,<span class="fl">1</span>], title<span class="op">=</span><span class="st">"Seasonal"</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    axtrend <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">3</span>,<span class="fl">1</span>], title<span class="op">=</span><span class="st">"Trend"</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    axrem <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">4</span>,<span class="fl">1</span>], title<span class="op">=</span><span class="st">"Remainder"</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(axorg,t, org)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(axseas, t, stlres.decomposition[!,<span class="op">:</span>Seasonal])</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(axtrend, t, stlres.decomposition[!, <span class="op">:</span>Trend])</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(axrem, t, stlres.decomposition[!, <span class="op">:</span>Remainder])</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hidexdecorations!</span>.([axorg, axseas, axtrend], grid<span class="op">=</span><span class="cn">false</span>)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    axrem.xtickformat <span class="op">=</span> dateformatfun</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    fig</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="78">
+<pre><code>plot_stlres (generic function with 2 methods)</code></pre>
+</div>
+</div>
+<div id="64f58e9b" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="79">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="fu">datetime2rata</span>.(stlres.decomposition[!,<span class="op">:</span>Timestamp])</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_stlres</span>(t, gpp, stlres)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="79">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In order to apply this over a full array we define the usual Trio: indims, outdims and the function to be applied. Here we create a new dimension for the output. There are 2 types of axes in YAXArrays, <code>CategoricalAxis</code> for unordered and <code>RangeAxis</code> for ordered dimensions. Here we create a categorical axis for our outputs. This means that inside the function the input array <code>xin</code> is a vector with of length <code>n_timesteps</code> and the output is a matrix of size <code>n_timesteps x 3</code></p>
+<div id="507510e1" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="91">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Logging</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Logging</span>.<span class="fu">disable_logging</span>(<span class="bu">Logging</span>.Info)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>indims <span class="op">=</span> <span class="fu">InDims</span>(<span class="st">"time"</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>outdims <span class="op">=</span> <span class="fu">OutDims</span>(<span class="st">"time"</span>,<span class="fu">Dim</span><span class="dt">{:Scale}</span>([<span class="st">"Seasonal"</span>, <span class="st">"Trend"</span>, <span class="st">"Remainder"</span>]), </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                    path <span class="op">=</span> <span class="st">"decomposed.zarr"</span>,backend<span class="op">=:</span>zarr, overwrite<span class="op">=</span><span class="cn">true</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">decompose_TS</span>(xout, xin)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">any</span>(isnan,xin) <span class="op">&amp;&amp;</span> <span class="cf">return</span> xout <span class="op">.=</span> <span class="cn">missing</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    stlres <span class="op">=</span> <span class="fu">stl</span>(xin,<span class="fl">46</span>,robust<span class="op">=</span><span class="cn">false</span>,verbose<span class="op">=</span><span class="cn">false</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    _,seas,trend,rem <span class="op">=</span> <span class="fu">eachcol</span>(stlres.decomposition)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    xout[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> seas</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    xout[<span class="op">:</span>,<span class="fl">2</span>] <span class="op">=</span> trend</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    xout[<span class="op">:</span>,<span class="fl">3</span>] <span class="op">=</span> rem</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="91">
+<pre><code>decompose_TS (generic function with 1 method)</code></pre>
+</div>
+</div>
+<div id="c085ba62" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-execution_count="95">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Logging</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Logging</span>.<span class="fu">disable_logging</span>(Warn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="28e7d36c" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="96">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> dec <span class="op">=</span> <span class="fu">mapCube</span>(decompose_TS, </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    c[Variable<span class="op">=</span><span class="fu">At</span>(<span class="st">"gross_primary_productivity"</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>        time<span class="op">=</span><span class="fu">Date</span>(<span class="fl">2001</span>)<span class="op">..</span><span class="fu">Date</span>(<span class="fl">2018</span>,<span class="fl">12</span>,<span class="fl">31</span>),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>        region<span class="op">=</span><span class="st">"Italy"</span>],</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">#lon=Near(11.3464),lat=Near(46.4946)],</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    indims <span class="op">=</span> indims,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    outdims <span class="op">=</span> outdims</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Progress: 100%|█████████████████████████████████████████| Time: 0:02:11</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>131.577868 seconds (204.94 M allocations: 576.936 GiB, 22.72% gc time)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="96">
+<div class="ansi-escaped-output">
+<pre>782×3×48×46 YAXArray{Union{Missing, Float32},4}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Ti</span> Sampled{DateTime} <span class="ansi-cyan-fg">DateTime[2001-01-05T00:00:00, …, 2017-12-31T00:00:00]</span> ForwardOrdered Irregular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Scale</span><span class="ansi-red-fg">}</span> Categorical{String} <span class="ansi-cyan-fg">String["Seasonal", "Trend", "Remainder"]</span> Unordered,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lon</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">6.625:0.25:18.375</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lat</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">46.875:-0.25:35.625</span> ReverseOrdered Regular Points
+Total size: 19.76 MB
+</pre>
+</div>
+</div>
+</div>
+<div id="953e41cb" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-execution_count="97">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Logging</span>.<span class="fu">disable_logging</span>(Debug)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="97">
+<pre><code>LogLevel(-999)</code></pre>
+</div>
+</div>
+<div id="32941b3e" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-execution_count="99">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>fig, axseas, heatyax <span class="op">=</span> <span class="fu">lines</span>( <span class="fu">datetime2rata</span>.(<span class="fu">lookup</span>(dec, Ti).data),</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    dec[lon<span class="op">=</span><span class="fu">Near</span>(<span class="fl">11.3464</span>),lat<span class="op">=</span><span class="fu">Near</span>(<span class="fl">46.4946</span>)].data[<span class="op">:</span>,<span class="fl">1</span>])</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="99">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="194df595" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-execution_count="101">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(<span class="fu">datetime2rata</span>.(<span class="fu">lookup</span>(dec, Ti).data),</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    stlres.decomposition[!, <span class="op">:</span>Seasonal])</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="101">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You see that the resulting array is a 4-dimensional array including the newly created axis. Lets do some plots:</p>
+<div id="99f742e8" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-execution_count="109">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Compute variance and plot a map of seasonal variance</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>scalevar <span class="op">=</span> <span class="fu">mapslices</span>(var,dec,dims<span class="op">=</span><span class="st">"Time"</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>scalerange <span class="op">=</span> <span class="fu">mapslices</span>(<span class="fu">x-&gt;maximum</span>(x) <span class="op">-</span> <span class="fu">minimum</span>(x), dec, dims<span class="op">=</span><span class="st">"Time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="109">
+<div class="ansi-escaped-output">
+<pre>3×48×46 YAXArray{Union{Missing, Float32},3}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Scale</span><span class="ansi-red-fg">}</span> Categorical{String} <span class="ansi-cyan-fg">String["Seasonal", "Trend", "Remainder"]</span> Unordered,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lon</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">6.625:0.25:18.375</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:lat</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">46.875:-0.25:35.625</span> ReverseOrdered Regular Points
+Total size: 25.88 KB
+</pre>
+</div>
+</div>
+</div>
+<div id="aaeca371" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-execution_count="110">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="fu">DimArray</span>(scalerange[scale<span class="op">=</span><span class="fu">At</span>(<span class="st">"Seasonal"</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="110">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="c9cf84d3" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-execution_count="111">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="fu">DimArray</span>(scalevar[scale<span class="op">=</span><span class="fu">At</span>(<span class="st">"Remainder"</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="111">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interpolate-data-on-finer-grids" class="level2">
+<h2 class="anchored" data-anchor-id="interpolate-data-on-finer-grids">Interpolate data on finer grids</h2>
+<div id="6c0f6fee" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Revise</span>,<span class="bu">EarthDataLab</span>, <span class="bu">DimensionalData</span>,<span class="bu">Rasters</span>, <span class="bu">Interpolations</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co">#c = esdd()</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> <span class="fu">open_dataset</span>(<span class="fu">joinpath</span>(tutorialdir,<span class="st">"esdc_subset2.zarr"</span>))</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>tair <span class="op">=</span> ds.air_temperature_2m</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>newlons <span class="op">=</span> <span class="op">-</span><span class="fl">179.95</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">179.95</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>newlats <span class="op">=</span> <span class="op">-</span><span class="fl">89.95</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">89.95</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Option 1:</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>tair1 <span class="op">=</span> <span class="fu">spatialinterp</span>(tair,newlons,newlats, order <span class="op">=</span><span class="fu">Quadratic</span>())</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>tair1[lon<span class="op">=</span><span class="fl">10</span><span class="op">..</span><span class="fl">15</span>, lat<span class="op">=</span><span class="fl">50</span><span class="op">..</span><span class="fl">60</span>]</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>tair1italy <span class="op">=</span> tair1[region<span class="op">=</span><span class="st">"Italy"</span>,time<span class="op">=</span><span class="fu">Near</span>(<span class="fu">DateTime</span>(<span class="fl">2015</span>,<span class="fl">6</span>,<span class="fl">1</span>))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="029d2146" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="145">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="fu">DimArray</span>(tair[region<span class="op">=</span><span class="st">"Italy"</span>, time<span class="op">=</span><span class="fu">Near</span>(<span class="fu">DateTime</span>(<span class="fl">2015</span>,<span class="fl">6</span>,<span class="fl">1</span>))]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="145">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-33-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="c2ec67fc" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="146">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>figinterp, interpax, interpheat <span class="op">=</span> <span class="fu">heatmap</span>(<span class="fu">DimArray</span>(tair1italy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="146">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-34-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="eb870503" class="cell" data-scrolled="false" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="151">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Dates</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>newtimes <span class="op">=</span> <span class="fu">DateTime</span>(<span class="fl">1979</span>)<span class="op">:</span><span class="fu">Day</span>(<span class="fl">1</span>)<span class="op">:</span><span class="fu">DateTime</span>(<span class="fl">2021</span>,<span class="fl">12</span>,<span class="fl">31</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>tair2 <span class="op">=</span> <span class="fu">interpolatecube</span>(tair,<span class="fu">Dict</span>(<span class="op">:</span>time<span class="op">=&gt;</span>newtimes), order<span class="op">=</span><span class="fu">Dict</span>(<span class="op">:</span>time<span class="op">=&gt;</span><span class="fu">Quadratic</span>()))</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>tair2Jan <span class="op">=</span> tair2[time<span class="op">=</span><span class="fu">DateTime</span>(<span class="fl">2001</span>)<span class="op">..</span><span class="fu">DateTime</span>(<span class="fl">2002</span>,<span class="fl">1</span>,<span class="fl">31</span>), lon<span class="op">=</span><span class="fu">Near</span>(<span class="fl">11.3464</span>),lat<span class="op">=</span><span class="fu">Near</span>(<span class="fl">46.4946</span>)]</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>tairJan <span class="op">=</span> tair[time<span class="op">=</span><span class="fu">DateTime</span>(<span class="fl">2001</span>)<span class="op">..</span><span class="fu">DateTime</span>(<span class="fl">2002</span>,<span class="fl">1</span>,<span class="fl">31</span>), lon<span class="op">=</span><span class="fu">Near</span>(<span class="fl">11.3464</span>),lat<span class="op">=</span><span class="fu">Near</span>(<span class="fl">46.4946</span>)]</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>fig, ax, pl <span class="op">=</span> <span class="fu">scatter</span>(<span class="fu">datetime2rata</span>.(<span class="fu">lookup</span>(tair2Jan, Ti).data), tair2Jan.data[<span class="op">:</span>],label<span class="op">=</span><span class="st">"Interpolated"</span>)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter!</span>(<span class="fu">datetime2rata</span>.(<span class="fu">lookup</span>(tairJan, Ti).data), tairJan.data[<span class="op">:</span>], label<span class="op">=</span><span class="st">"Original"</span>)</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>ax.xtickformat <span class="op">=</span> dateformatfun</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="fu">axislegend</span>(ax)</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ii = [(:time, 3)]
+ai = nothing
+ai = nothing
+ai = 1
+ii[ai] = (:time, 3)
+intorder = (NoInterp(), NoInterp(), Quadratic(Line(OnGrid())))</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="151">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-35-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="use-python-or-r-in-inner-function" class="level2">
+<h2 class="anchored" data-anchor-id="use-python-or-r-in-inner-function">Use Python or R in inner function</h2>
+<div id="c9a3b1d3" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="153">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PyCall</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>scipyndimage <span class="op">=</span> <span class="fu">pyimport</span>(<span class="st">"scipy.ndimage"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="153">
+<pre><code>PyObject &lt;module 'scipy.ndimage' from '/home/fcremer/.julia/conda/3/lib/python3.9/site-packages/scipy/ndimage/__init__.py'&gt;</code></pre>
+</div>
+</div>
+<div id="db6e87f7" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="154">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">gaussian_smooth</span>(xout, xin)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    missinds <span class="op">=</span> <span class="fu">ismissing</span>.(xin)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    smooth <span class="op">=</span> scipyndimage.<span class="fu">gaussian_filter</span>(xin[.!missinds], sigma<span class="op">=</span><span class="fl">4</span>)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    xout[.!missinds] <span class="op">.=</span> smooth</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="154">
+<pre><code>gaussian_smooth (generic function with 1 method)</code></pre>
+</div>
+</div>
+<div id="5e67b6a1" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="156">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>gpp_bozen_2010 <span class="op">=</span> c[lon<span class="op">=</span><span class="fu">Near</span>(<span class="fl">11.3464</span>),lat<span class="op">=</span><span class="fu">Near</span>(<span class="fl">46.4946</span>),</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    time <span class="op">=</span> <span class="fu">DateTime</span>(<span class="fl">2010</span>)<span class="op">..</span><span class="fu">DateTime</span>(<span class="fl">2011</span>),</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    Variable<span class="op">=</span><span class="fu">At</span>(<span class="st">"gross_primary_productivity"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="156">
+<div class="ansi-escaped-output">
+<pre>46-element YAXArray{Union{Missing, Float32},1}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Ti</span> Sampled{DateTime} <span class="ansi-cyan-fg">DateTime[2010-01-05T00:00:00, …, 2010-12-31T00:00:00]</span> ForwardOrdered Irregular Points
+units: W m-2
+Total size: 184.0 bytes
+</pre>
+</div>
+</div>
+</div>
+<div id="f7e2d1da" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="158">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>smoothcube <span class="op">=</span> <span class="fu">mapCube</span>(gaussian_smooth, gpp_bozen_2010, indims<span class="op">=</span><span class="fu">InDims</span>(<span class="st">"time"</span>), outdims<span class="op">=</span><span class="fu">OutDims</span>(<span class="st">"time"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="158">
+<div class="ansi-escaped-output">
+<pre>46-element YAXArray{Union{Missing, Float32},1}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Ti</span> Sampled{DateTime} <span class="ansi-cyan-fg">DateTime[2010-01-05T00:00:00, …, 2010-12-31T00:00:00]</span> ForwardOrdered Irregular Points
+Total size: 184.0 bytes
+</pre>
+</div>
+</div>
+</div>
+<div id="5e9ec213" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="162">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>fig, ax, l <span class="op">=</span> <span class="fu">lines</span>(<span class="fu">datetime2rata</span>.(<span class="fu">lookup</span>(gpp_bozen_2010, Ti).data), gpp_bozen_2010[<span class="op">:</span>], label<span class="op">=</span><span class="st">"Original"</span>)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines!</span>(ax,<span class="fu">datetime2rata</span>.(<span class="fu">lookup</span>(smoothcube, Ti).data), smoothcube[<span class="op">:</span>], label<span class="op">=</span><span class="st">"Smooth"</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>ax.xtickformat<span class="op">=</span> dateformatfun</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="fu">axislegend</span>(ax)</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="162">
+<div>
+<figure class="figure">
+<p><img src="intro_YAXArrays_files/figure-html/cell-40-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="parellelize-the-data-processing" class="level2">
+<h2 class="anchored" data-anchor-id="parellelize-the-data-processing">Parellelize the data processing</h2>
+</section>
+<section id="easy-parallelization-on-multiple-cores-and-multiple-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="easy-parallelization-on-multiple-cores-and-multiple-nodes">Easy parallelization on multiple cores and multiple nodes¶</h2>
+<ul>
+<li>Use threads on a single computer</li>
+<li>Use Distributed on multiple computers</li>
+<li>Works also with ClusterManagers like SLURM</li>
+</ul>
+<div id="112a613c" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributed</span>, <span class="bu">Zarr</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addprocs</span>(<span class="fl">4</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="1886aaa6" class="cell" data-scrolled="true" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@everywhere</span> <span class="cf">begin</span> </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">"."</span>)</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Pkg</span>.<span class="fu">instantiate</span>()</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Pkg.status()</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">YAXArrays</span>, <span class="bu">Statistics</span>, <span class="bu">NetCDF</span>, <span class="bu">Zarr</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  Activating project at `~/Documents/conferences/202310_Bozen_OEMC_GW23`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      From worker 12:     Activating project at `~/Documents/conferences/202310_Bozen_OEMC_GW23`
+      From worker 13:     Activating project at `~/Documents/conferences/202310_Bozen_OEMC_GW23`
+      From worker 10:     Activating project at `~/Documents/conferences/202310_Bozen_OEMC_GW23`
+      From worker 11:     Activating project at `~/Documents/conferences/202310_Bozen_OEMC_GW23`</code></pre>
+</div>
+</div>
+</section>
+<section id="creating-a-sar-data-cube-from-gdal-vrts" class="level1">
+<h1>Creating a SAR data cube from GDAL VRTs</h1>
+<ul>
+<li>Combine multiple Tif files into one data cube for time series analysis</li>
+<li>Use Sentinel-1 data as an example</li>
+</ul>
+<div id="bf5e9865" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="167">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load needed packages</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Dates</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ArchGDAL</span>: ArchGDAL as AG</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">YAXArrays</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DimensionalData</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="fa288e69" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="168">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find relevant data</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>folder <span class="op">=</span> <span class="st">"/home/fcremer/Daten/Tutorials/s1data"</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>pol <span class="op">=</span> <span class="st">"VH"</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>allfiles <span class="op">=</span> <span class="bu">Iterators</span>.<span class="fu">flatten</span>([<span class="fu">joinpath</span>.((t[<span class="fl">1</span>],), t[<span class="fl">3</span>]) for t <span class="kw">in</span> <span class="fu">walkdir</span>(folder)])</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>nonhiddenfiles <span class="op">=</span> <span class="bu">Iterators</span>.<span class="fu">filter</span>(<span class="fu">x-&gt;!startswith</span>(<span class="fu">basename</span>(x),<span class="st">"."</span>), allfiles)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>filteredfiles <span class="op">=</span> <span class="fu">collect</span>(<span class="bu">Iterators</span>.<span class="fu">filter</span>(<span class="fu">x-&gt;occursin</span>(pol,x), nonhiddenfiles))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="168">
+<pre><code>4-element Vector{String}:
+ "/home/fcremer/Daten/Tutorials/s" ⋯ 30 bytes ⋯ "228_127_VH_grd_mli_norm_geo.tif"
+ "/home/fcremer/Daten/Tutorials/s" ⋯ 30 bytes ⋯ "253_127_VH_grd_mli_norm_geo.tif"
+ "/home/fcremer/Daten/Tutorials/s" ⋯ 30 bytes ⋯ "244_127_VH_grd_mli_norm_geo.tif"
+ "/home/fcremer/Daten/Tutorials/s" ⋯ 30 bytes ⋯ "309_127_VH_grd_mli_norm_geo.tif"</code></pre>
+</div>
+</div>
+<div id="a00e25bb" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="169">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parse the time steps of the data</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Dates</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getdate</span>(x,reg <span class="op">=</span> <span class="st">r"</span><span class="ch">[</span><span class="st">0-9</span><span class="ch">]</span><span class="st">{8}T</span><span class="ch">[</span><span class="st">0-9</span><span class="ch">]</span><span class="st">{6}"</span>, df <span class="op">=</span> dateformat<span class="st">"yyyymmddTHHMMSS"</span>)</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>   m <span class="op">=</span> <span class="fu">match</span>(reg,x).match</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>   date <span class="op">=</span><span class="fu">DateTime</span>(m,df)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>dates <span class="op">=</span> <span class="fu">getdate</span>.(filteredfiles)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="169">
+<pre><code>4-element Vector{DateTime}:
+ 2016-10-03T10:12:28
+ 2016-10-03T10:12:53
+ 2020-01-16T10:12:44
+ 2020-01-16T10:13:09</code></pre>
+</div>
+</div>
+<div id="63fa44a8" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="170">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fu">sortperm</span>(dates)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>sdates <span class="op">=</span> dates[p]</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>sfiles <span class="op">=</span> filteredfiles[p]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="170">
+<pre><code>4-element Vector{String}:
+ "/home/fcremer/Daten/Tutorials/s" ⋯ 30 bytes ⋯ "228_127_VH_grd_mli_norm_geo.tif"
+ "/home/fcremer/Daten/Tutorials/s" ⋯ 30 bytes ⋯ "253_127_VH_grd_mli_norm_geo.tif"
+ "/home/fcremer/Daten/Tutorials/s" ⋯ 30 bytes ⋯ "244_127_VH_grd_mli_norm_geo.tif"
+ "/home/fcremer/Daten/Tutorials/s" ⋯ 30 bytes ⋯ "309_127_VH_grd_mli_norm_geo.tif"</code></pre>
+</div>
+</div>
+<div id="3b63f0cd" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="171">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="st">grouptimes(times, timediff=200000)</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="st">Group a sorted vector of time stamps into subgroups</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="st">where the difference between neighbouring elements are less than `timediff` milliseconds.</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="st">This returns the indices of the subgroups as a vector of vectors.</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">grouptimes</span>(times, timediff<span class="op">=</span><span class="fl">200000</span>)</span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>   <span class="pp">@assert</span> <span class="fu">sort</span>(times) <span class="op">==</span> times</span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>   group <span class="op">=</span> [<span class="fl">1</span>]</span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>   groups <span class="op">=</span> [group]</span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fu">length</span>(times)</span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>      t <span class="op">=</span> times[i]</span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>      period <span class="op">=</span> t <span class="op">-</span> times[group[<span class="kw">end</span>]]</span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> period.value <span class="op">&lt;</span> timediff</span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a>         <span class="fu">push!</span>(group, i)</span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span></span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a>         <span class="fu">push!</span>(groups, [i])</span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a>         group <span class="op">=</span> groups[<span class="kw">end</span>]</span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a>      <span class="cf">end</span></span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a>   <span class="cf">end</span></span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a>   <span class="cf">return</span> groups</span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a>groupinds <span class="op">=</span> <span class="fu">grouptimes</span>(sdates, <span class="fl">200000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="171">
+<pre><code>2-element Vector{Vector{Int64}}:
+ [1, 2]
+ [3, 4]</code></pre>
+</div>
+</div>
+<div id="a453fe38" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="172">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>datasets <span class="op">=</span> AG.<span class="fu">read</span>.(sfiles)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>datasetgroups <span class="op">=</span> [datasets[group] for group <span class="kw">in</span> groupinds]</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co">#We have to save the vrts because the usage of nested vrts is not working as a rasterdataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="172">
+<pre><code>2-element Vector{Vector{ArchGDAL.IDataset}}:
+ [GDAL Dataset (Driver: GTiff/GeoTIFF)
+File(s): 
+  /home/fcremer/Daten/Tutorials/s1data/S1A__IW___D_20161003T101228_127_VH_grd_mli_norm_geo.tif
+
+Dataset (width x height): 5816 x 4326 (pixels)
+Number of raster bands: 1
+  [GA_ReadOnly] Band 1 (Gray): 5816 x 4326 (Float32)
+, GDAL Dataset (Driver: GTiff/GeoTIFF)
+File(s): 
+  /home/fcremer/Daten/Tutorials/s1data/S1A__IW___D_20161003T101253_127_VH_grd_mli_norm_geo.tif
+
+Dataset (width x height): 4596 x 5043 (pixels)
+Number of raster bands: 1
+  [GA_ReadOnly] Band 1 (Gray): 4596 x 5043 (Float32)
+]
+ [GDAL Dataset (Driver: GTiff/GeoTIFF)
+File(s): 
+  /home/fcremer/Daten/Tutorials/s1data/S1A__IW___D_20200116T101244_127_VH_grd_mli_norm_geo.tif
+
+Dataset (width x height): 5815 x 4325 (pixels)
+Number of raster bands: 1
+  [GA_ReadOnly] Band 1 (Gray): 5815 x 4325 (Float32)
+, GDAL Dataset (Driver: GTiff/GeoTIFF)
+File(s): 
+  /home/fcremer/Daten/Tutorials/s1data/S1A__IW___D_20200116T101309_127_VH_grd_mli_norm_geo.tif
+
+Dataset (width x height): 4595 x 5044 (pixels)
+Number of raster bands: 1
+  [GA_ReadOnly] Band 1 (Gray): 4595 x 5044 (Float32)
+]</code></pre>
+</div>
+</div>
+<div id="42fcc342" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="173">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> <span class="fu">tempdir</span>()</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>outpaths <span class="op">=</span> [<span class="fu">joinpath</span>(temp, <span class="fu">splitext</span>(<span class="fu">basename</span>(sfiles[group][<span class="fl">1</span>]))[<span class="fl">1</span>] <span class="op">*</span> <span class="st">".vrt"</span>) for group <span class="kw">in</span> groupinds]</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>vrt_grouped <span class="op">=</span> AG.<span class="fu">unsafe_gdalbuildvrt</span>.(datasetgroups)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="173">
+<pre><code>2-element Vector{ArchGDAL.Dataset}:
+ GDAL Dataset (Driver: VRT/Virtual Raster)
+File(s): 
+  /home/fcremer/Daten/Tutorials/s1data/S1A__IW___D_20161003T101228_127_VH_grd_mli_norm_geo.tif
+  /home/fcremer/Daten/Tutorials/s1data/S1A__IW___D_20161003T101253_127_VH_grd_mli_norm_geo.tif
+
+Dataset (width x height): 5816 x 7500 (pixels)
+Number of raster bands: 1
+  [GA_Update] Band 1 (Gray): 5816 x 7500 (Float32)
+
+ GDAL Dataset (Driver: VRT/Virtual Raster)
+File(s): 
+  /home/fcremer/Daten/Tutorials/s1data/S1A__IW___D_20200116T101244_127_VH_grd_mli_norm_geo.tif
+  /home/fcremer/Daten/Tutorials/s1data/S1A__IW___D_20200116T101309_127_VH_grd_mli_norm_geo.tif
+
+Dataset (width x height): 5815 x 7500 (pixels)
+Number of raster bands: 1
+  [GA_Update] Band 1 (Gray): 5815 x 7500 (Float32)</code></pre>
+</div>
+</div>
+<div id="de7c96bf" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="174">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>AG.<span class="fu">write</span>.(vrt_grouped, outpaths)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>vrt_grouped <span class="op">=</span> AG.<span class="fu">read</span>.(outpaths)</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>vrt_vv <span class="op">=</span> AG.<span class="fu">unsafe_gdalbuildvrt</span>(vrt_grouped, [<span class="st">"-separate"</span>])</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>rvrt_vv <span class="op">=</span> AG.<span class="fu">RasterDataset</span>(vrt_vv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="174">
+<pre><code>GDAL Dataset (Driver: VRT/Virtual Raster)
+File(s): 
+  /tmp/S1A__IW___D_20161003T101228_127_VH_grd_mli_norm_geo.vrt
+  /tmp/S1A__IW___D_20200116T101244_127_VH_grd_mli_norm_geo.vrt
+
+Dataset (width x height): 5816 x 7500 (pixels)
+Number of raster bands: 2
+  [GA_Update] Band 1 (Undefined): 5816 x 7500 (Float32)
+  [GA_Update] Band 2 (Undefined): 5816 x 7500 (Float32)</code></pre>
+</div>
+</div>
+<div id="0a617277" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="175">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>cube<span class="op">=</span><span class="fu">YAXArray</span>(rvrt_vv)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="co">#bandnames = AG.GDAL.gdalgetfilelist(vrt_vv.ptr)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="175">
+<div class="ansi-escaped-output">
+<pre>5816×7500×2 YAXArray{Float32,3}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Y</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">561609.15:30.0:736059.15</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:X</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">9.48724066e6:-30.0:9.26227066e6</span> ReverseOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Band</span><span class="ansi-red-fg">}</span> Categorical{String} <span class="ansi-cyan-fg">String["Band_1", "Band_2"]</span> ForwardOrdered
+Total size: 332.79 MB
+</pre>
+</div>
+</div>
+</div>
+<div id="be723d8c" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="190">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the timesteps from the bandnames as time axis</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>dates_grouped <span class="op">=</span> [sdates[group[begin]] for group <span class="kw">in</span> groupinds]</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>taxis <span class="op">=</span> <span class="fu">Ti</span>(dates_grouped)</span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>cube <span class="op">=</span> DimensionalData.<span class="fu">set</span>(cube, Dim{<span class="op">:</span>Band}<span class="op">=&gt;</span>taxis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="190">
+<div class="ansi-escaped-output">
+<pre>5816×7500×2 YAXArray{Float32,3}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Y</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">561609.15:30.0:736059.15</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:X</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">9.48724066e6:-30.0:9.26227066e6</span> ReverseOrdered Regular Points,
+  <span class="ansi-red-fg">Ti</span> Categorical{DateTime} <span class="ansi-cyan-fg">DateTime[DateTime("2016-10-03T10:12:28"), DateTime("2020-01-16T10:12:44")]</span> ForwardOrdered
+Total size: 332.79 MB
+</pre>
+</div>
+</div>
+</div>
+<div id="0521694e" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="191">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>YAXArrays.Cubes.<span class="fu">cubechunks</span>(cube)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="191">
+<pre><code>(128, 128, 1)</code></pre>
+</div>
+</div>
+<div id="740089d2" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="192">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>newchunked <span class="op">=</span> <span class="fu">setchunks</span>(cube, (X<span class="op">=</span><span class="fl">400</span>,Y<span class="op">=</span><span class="fl">400</span>, Band<span class="op">=</span><span class="fl">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="192">
+<div class="ansi-escaped-output">
+<pre>5816×7500×2 YAXArray{Float32,3}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Y</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">561609.15:30.0:736059.15</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:X</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">9.48724066e6:-30.0:9.26227066e6</span> ReverseOrdered Regular Points,
+  <span class="ansi-red-fg">Ti</span> Categorical{DateTime} <span class="ansi-cyan-fg">DateTime[DateTime("2016-10-03T10:12:28"), DateTime("2020-01-16T10:12:44")]</span> ForwardOrdered
+Total size: 332.79 MB
+</pre>
+</div>
+</div>
+</div>
+<div id="437beac9" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="79">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>YAXArrays.Cubes.<span class="fu">cubechunks</span>(newchunked)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="79">
+<pre><code>(400, 400, 2)</code></pre>
+</div>
+</div>
+<div id="1a7a2a17" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-execution_count="193">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">savecube</span>(newchunked, <span class="st">"s1data.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="193">
+<div class="ansi-escaped-output">
+<pre>5816×7500×2 YAXArray{Float32,3}<span class="ansi-bright-black-fg"> with dimensions: </span>
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:Y</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">561609.15:30.0:736059.15</span> ForwardOrdered Regular Points,
+  <span class="ansi-red-fg">Dim{</span><span class="ansi-yellow-fg">:X</span><span class="ansi-red-fg">}</span> Sampled{Float64} <span class="ansi-cyan-fg">9.48724066e6:-30.0:9.26227066e6</span> ReverseOrdered Regular Points,
+  <span class="ansi-red-fg">Ti</span> Categorical{DateTime} <span class="ansi-cyan-fg">DateTime[DateTime("2016-10-03T10:12:28"), DateTime("2020-01-16T10:12:44")]</span> ForwardOrdered
+Total size: 332.79 MB
+</pre>
+</div>
+</div>
+</div>
+</section>
+<section id="yaxarrays-table-interface" class="level1">
+<h1>3. YAXArrays table-interface</h1>
+<p>Similar to Rasters.jl, also YAXArrays provides a method to represent labelled arrays as a table. However, as everything in YAXArrays, lazy is the default as well for tables. So the CubeTable constructor will not load any data but will provide an iterator over table chunks that one can use for further analysis. Here it is guaranteed that these subtables fit into memory and they can be distributed for parallel data loading and processing</p>
+<div id="cd18c47b" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Revise</span>, <span class="bu">YAXArrays</span>, <span class="bu">Zarr</span>, <span class="bu">Plots</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> <span class="fu">open_dataset</span>(<span class="st">"./esdc_subset2.zarr"</span>)</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>countryds <span class="op">=</span> <span class="fu">open_dataset</span>(<span class="st">"./countries.zarr"</span>)</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>countryds.countries.properties[<span class="st">"labels"</span>] <span class="op">=</span> <span class="fu">Dict</span>(<span class="fu">parse</span>(<span class="dt">Int</span>,k)<span class="op">=&gt;</span>v <span class="cf">for</span> (k,v) <span class="kw">in</span> countryds.countries.properties[<span class="st">"labels"</span>])</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>countryds.countries.properties[<span class="st">"Name"</span>] <span class="op">=</span> <span class="st">"Country"</span></span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>countryds.countries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>ArgumentError: ArgumentError: Package Plots not found in current path.
+- Run `import Pkg; Pkg.add("Plots")` to install the Plots package.</code></pre>
+</div>
+</div>
+<div id="6ac5fd46" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>tab <span class="op">=</span> <span class="fu">CubeTable</span>(gpp <span class="op">=</span> ds.gross_primary_productivity, tair <span class="op">=</span> ds.air_temperature_2m, country <span class="op">=</span> countryds.countries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>UndefVarError: UndefVarError: `ds` not defined</code></pre>
+</div>
+</div>
+<p>It is possible to loop over or index into a table iterator to get one of the subtables or . Note that even here nothing is loaded yet.</p>
+<div id="b8b45398" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>subtab <span class="op">=</span> tab[<span class="fl">42</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>UndefVarError: UndefVarError: `tab` not defined</code></pre>
+</div>
+</div>
+<p>Only when accessing a specific column, the data is actually loaded</p>
+<div id="a68531da" class="cell" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>subtab.tair</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>UndefVarError: UndefVarError: `subtab` not defined</code></pre>
+</div>
+</div>
+<p>But since a subtable implements the Tables interface we can also convert to a DataFrame</p>
+<div id="db92f69a" class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">DataFrame</span>(subtab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>ArgumentError: ArgumentError: Package DataFrames not found in current path.
+- Run `import Pkg; Pkg.add("DataFrames")` to install the DataFrames package.</code></pre>
+</div>
+</div>
+<p>These tables can be used for aggregating data. Suppose we want to compute the mean temperature by country, YAXArrays provides some tools to do this in connection with OnlineStats.jl and WeightedOnlineStats.jl</p>
+<div id="bca7de87" class="cell" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">WeightedOnlineStats</span>, <span class="bu">OnlineStats</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="co">#using Distributed</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="co">#addprocs(8)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>ArgumentError: ArgumentError: Package WeightedOnlineStats not found in current path.
+- Run `import Pkg; Pkg.add("WeightedOnlineStats")` to install the WeightedOnlineStats package.</code></pre>
+</div>
+</div>
+<div id="369f02ce" class="cell" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co">#@everywhere begin</span></span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">"."</span>)</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">YAXArrays</span>, <span class="bu">Zarr</span>, <span class="bu">Plots</span>, <span class="bu">WeightedOnlineStats</span>, <span class="bu">OnlineStats</span>, <span class="bu">Dates</span></span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a><span class="co">#end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  Activating project at `~/Documents/conferences/202310_Bozen_OEMC_GW23`</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>ArgumentError: ArgumentError: Package Plots not found in current path.
+- Run `import Pkg; Pkg.add("Plots")` to install the Plots package.</code></pre>
+</div>
+</div>
+<div id="fbb98539" class="cell" data-execution_count="68">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> r <span class="op">=</span> <span class="fu">cubefittable</span>(tab, WeightedMean, <span class="op">:</span>tair, by<span class="op">=</span>(<span class="op">:</span>country,),weight<span class="op">=</span>(<span class="fu">r-&gt;cosd</span>(r.lat)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>UndefVarError: UndefVarError: `tab` not defined</code></pre>
+</div>
+</div>
+<div id="2e8b9b4c" class="cell" data-execution_count="69">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DataFrame</span>(<span class="fu">first</span>(<span class="fu">CubeTable</span>(mtemp <span class="op">=</span> r)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>UndefVarError: UndefVarError: `r` not defined</code></pre>
+</div>
+</div>
+<div id="7ba99b0e" class="cell" data-execution_count="70">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@everywhere</span> <span class="fu">splitmonth</span>(r) <span class="op">=</span> <span class="fu">month</span>(r.time)</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> <span class="fu">cubefittable</span>(tab, WeightedMean, <span class="op">:</span>tair, by<span class="op">=</span>(<span class="op">:</span>country,splitmonth),weight<span class="op">=</span>(<span class="fu">r-&gt;cosd</span>(r.lat)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>UndefVarError: UndefVarError: `tab` not defined</code></pre>
+</div>
+</div>
+<div id="82536f1d" class="cell" data-execution_count="71">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmprocs</span>(<span class="fu">workers</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>┌ Warning: rmprocs: process 1 not removed
+└ @ Distributed /home/fcremer/.julia/juliaup/julia-1.9.2+0.x64.linux.gnu/share/julia/stdlib/v1.9/Distributed/src/cluster.jl:1049</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>Task (done) @0x00007ffab00d95f0</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/JuliaDataCubes\.github\.io\/datacubes_in_julia_workshop\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
