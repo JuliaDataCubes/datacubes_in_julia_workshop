@@ -1,27 +1,29 @@
 [
   {
+    "objectID": "exercise_yaxarrays.html#dataset-download",
+    "href": "exercise_yaxarrays.html#dataset-download",
+    "title": "Exercise YAXArrays",
+    "section": "Dataset download",
+    "text": "Dataset download\n\nusing YAXArrays\nusing Zarr\nusing DiskArrays\nusing DimensionalData\nera5url = \"https://s3.bgc-jena.mpg.de:9000/deepextremes/v3/ERA5Cube.zarr\"\nera5 = Cube(era5url)\ntimedim = dimnum(era5, Ti)\nchunkinds =ones(Int64, length(size(era5)))\nchunks = eachchunk(era5)\nchunkinds[timedim] = size(chunks, timedim)-1\nlastchunk = chunks[chunkinds...]\ntimestart = first(dims(era5,Ti)[lastchunk[timedim]])\ntimeend = last(dims(era5,Ti))\nsub = era5[Ti=timestart..timeend, longitude=0..14.76,latitude=30.1..60]\n\n\n╭───────────────────────────────────────────────────╮\n│ 60×120×9131×5 YAXArray{Union{Missing, Float64},4} │\n├───────────────────────────────────────────────────┴───────────────────��� dims ┐\n  ↓ longitude Sampled{Float32} 0.0f0:0.25f0:14.75f0 ForwardOrdered Regular Points,\n  → latitude  Sampled{Float32} 60.0f0:-0.25f0:30.25f0 ReverseOrdered Regular Points,\n  ↗ Ti        Sampled{Dates.DateTime} [1998-01-01T00:00:00, …, 2022-12-31T00:00:00] ForwardOrdered Irregular Points,\n  ⬔ Variable  Categorical{String} [\"tp\", \"pet\", \"t2mmin\", \"t2mmax\", \"t2m\"] Unordered\n├─────────���────────────────────────────────────────────────────────── metadata ┤\n  Dict{String, Any} with 7 entries:\n  \"long_name\"     =&gt; \"2 metre temperature\"\n  \"scale_factor\"  =&gt; 0.00160009\n  \"_FillValue\"    =&gt; -32767.0\n  \"missing_value\" =&gt; -32767\n  \"units\"         =&gt; \"K\"\n  \"add_offset\"    =&gt; 268.035\n  \"aggfun\"        =&gt; \"mean\"\n├──────���──────────────────────────────────────────────────────────── file size ┤ \n  file size: 2.45 GB\n└──────────────────────────────────────────────────────────────────────────────┘",
+    "crumbs": [
+      "Home",
+      "Exercises",
+      "Exercise YAXArrays"
+    ]
+  },
+  {
     "objectID": "rasterdata.html#loading-zarr-data-from-the-web",
     "href": "rasterdata.html#loading-zarr-data-from-the-web",
     "title": "Raster data handling",
     "section": "Loading Zarr data from the Web",
-    "text": "Loading Zarr data from the Web\nThe data that we are working with is often available in the Zarr format. The Zarr format can be loaded from the cloud or from local computers.",
-    "crumbs": [
-      "Home",
-      "Julia Geo Ecosystem",
-      "Raster data handling"
-    ]
+    "text": "Loading Zarr data from the Web\nThe data that we are working with is often available in the Zarr format. The Zarr format can be loaded from the cloud or from local computers."
   },
   {
     "objectID": "rasterdata.html#combining-multiple-tiff-files-into-a-data-cube",
     "href": "rasterdata.html#combining-multiple-tiff-files-into-a-data-cube",
     "title": "Raster data handling",
     "section": "Combining multiple Tiff files into a data cube",
-    "text": "Combining multiple Tiff files into a data cube",
-    "crumbs": [
-      "Home",
-      "Julia Geo Ecosystem",
-      "Raster data handling"
-    ]
+    "text": "Combining multiple Tiff files into a data cube"
   },
   {
     "objectID": "about.html",
@@ -59,24 +61,14 @@
     "href": "chunking.html#how-to-deal-with-chunked-data",
     "title": "Chunking: Why and how?",
     "section": "How to deal with chunked data?",
-    "text": "How to deal with chunked data?",
-    "crumbs": [
-      "Home",
-      "Raster data handling",
-      "Chunking: Why and how?"
-    ]
+    "text": "How to deal with chunked data?"
   },
   {
     "objectID": "chunking.html#what-is-the-influence-of-chunking-on-my-analysis",
     "href": "chunking.html#what-is-the-influence-of-chunking-on-my-analysis",
     "title": "Chunking: Why and how?",
     "section": "What is the influence of chunking on my analysis?",
-    "text": "What is the influence of chunking on my analysis?\n\nFurther reading\nSee the chunking tutorial at [Linas Tutorial] for an in depth explanation of chunking and to see the differences of different chunking regimes.",
-    "crumbs": [
-      "Home",
-      "Raster data handling",
-      "Chunking: Why and how?"
-    ]
+    "text": "What is the influence of chunking on my analysis?\n\nFurther reading\nSee the chunking tutorial at [Linas Tutorial] for an in depth explanation of chunking and to see the differences of different chunking regimes."
   },
   {
     "objectID": "intro_YAXArrays.html",
@@ -295,41 +287,71 @@
     "href": "intro_julia.html#variables",
     "title": "Introduction to Julia",
     "section": "Variables",
-    "text": "Variables"
+    "text": "Variables\n\n# Variables are names (tags, stickers) for Julia objects\nx = 2\ny = x\nx = 3\nx, y \n\n(3, 2)",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Introduction to Julia"
+    ]
   },
   {
     "objectID": "intro_julia.html#data-types",
     "href": "intro_julia.html#data-types",
     "title": "Introduction to Julia",
     "section": "Data types",
-    "text": "Data types"
+    "text": "Data types\n\nBuilt-in Data types\n\n#Numeric data types\nfor T in (UInt8, UInt16, UInt32, UInt64, Int8, Int16, Int32, Int64, \n          Float16, Float32, Float64, ComplexF16, ComplexF32, ComplexF64)\n    @show T(5)\nend\n\nT(5) = 0x05\nT(5) = 0x0005\nT(5) = 0x00000005\nT(5) = 0x0000000000000005\nT(5) = 5\nT(5) = 5\nT(5) = 5\nT(5) = 5\nT(5) = Float16(5.0)\nT(5) = 5.0f0\nT(5) = 5.0\nT(5) = Float16(5.0) + Float16(0.0)im\nT(5) = 5.0f0 + 0.0f0im\nT(5) = 5.0 + 0.0im\n\n\n\n@show typeof([1,2,3])\n@show typeof([1.0,2.0,3.0])\n\ntypeof([1, 2, 3]) = Vector{Int64}\ntypeof([1.0, 2.0, 3.0]) = Vector{Float64}\n\n\n\nVector{Float64} (alias for Array{Float64, 1})\n\n\n\n\n\nCustom data types\nstructs are basic types composing several fields into a single object.\n\nstruct PointF\nx::Float64\ny::Float64\nend\np = PointF(2.0,3.0)\n\nPointF(2.0, 3.0)\n\n\nThe fields of a struct may or may not be typed\n\nstruct PointUntyped\nx\ny\nend\np = PointUntyped(2.f0, 3)\n\nPointUntyped(2.0f0, 3)\n\n\n\nPointUntyped(\"Hallo\", sin)\n\nPointUntyped(\"Hallo\", sin)\n\n\nParametric types can be used to generic specialized code for a variety of field types.\n\nstruct Point{T&lt;:Number}\nx::T\ny::T\nend\np = Point(3.f0,2.f0)\n\nPoint{Float32}(3.0f0, 2.0f0)",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Introduction to Julia"
+    ]
   },
   {
     "objectID": "intro_julia.html#loops",
     "href": "intro_julia.html#loops",
     "title": "Introduction to Julia",
     "section": "Loops",
-    "text": "Loops"
+    "text": "Loops\nLoops are written using the for keyword and process any object implementing the iteration interface\n\nfor i in 1:3\n    println(i)\nend\n\nfor letter in \"hello\"\n    println(letter)\nend\n\n1\n2\n3\nh\ne\nl\nl\no",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Introduction to Julia"
+    ]
   },
   {
     "objectID": "intro_julia.html#functions",
     "href": "intro_julia.html#functions",
     "title": "Introduction to Julia",
     "section": "Functions",
-    "text": "Functions"
+    "text": "Functions\nThere are 3 ways to define functions in Julia:\nLong form:\n\nfunction f1(x, y)\n    return x+y\nend\n\nf1 (generic function with 1 method)\n\n\nNote that the return keyword is optional. If it is missing, a function always returns the result of the last statement.\nShort form:\n\nf2(x, y) = x + y\n\nf2 (generic function with 1 method)\n\n\nVery useful for writing short one-liners.\nAnonymous functions (similar to lambdas in python), will be important in the Functional Programming section:\n\nf3 = (x,y) -&gt; x + y\n\n#15 (generic function with 1 method)\n\n\nThey all define the same function:\n\nf1(1,2) == f2(1,2) == f3(1,2) == 3\n\ntrue",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Introduction to Julia"
+    ]
   },
   {
     "objectID": "intro_julia.html#multiple-dispatch",
     "href": "intro_julia.html#multiple-dispatch",
     "title": "Introduction to Julia",
     "section": "Multiple Dispatch",
-    "text": "Multiple Dispatch"
+    "text": "Multiple Dispatch\nIn object-oriented programming languages methods (behavior) are part of the class namespace itself and can be used to implement generic behavior.\nclass Point():\n    def __init__(self,x,y):\n        self.x = x\n        self.y = y\n\n    def abs(self):\n        return self.x*self.x + self.y*self.y\n\np = Point(3,2)\np.abs()\nIn Julia, functions are first-class objects and can have multiple methods for different combinations of argument types.\n\nabsolute(p::Point) = p.x^2 + p.y^2\n\nabsolute (generic function with 1 method)\n\n\nThis defines a new function absolute with a single method\n\nmethods(absolute)\n\n# 1 method for generic function absolute from \u001b[35mMain\u001b[39m: absolute(p::Point) in Main at In[21]:1 \n\n\n\n@show absolute(Point(2,3))\n@show absolute(Point(2.0,3.0))\n\nabsolute(Point(2, 3)) = 13\nabsolute(Point(2.0, 3.0)) = 13.0\n\n\n13.0\n\n\nIn addition to defining new functions, existing functions can be extended to work for our custom data types:\n\nimport Base: +, -, *, /, zero, one, oneunit\n+(p1::Point, p2::Point) = Point(p1.x+p2.x, p1.y+p2.y)\n-(p1::Point, p2::Point) = Point(p1.x-p2.x, p1.y-p2.y)\n*(x::Number, p::Point) = Point(x*p.x, x*p.y)\n/(p::Point,x::Number) = Point(p.x/x,p.y/x)\n-(p::Point) = Point(-p.x,-p.y)\nzero(x::Point{T}) where T = zero(typeof(x))\nzero(::Type{Point{T}}) where T = Point(zero(T),zero(T))\none(x::Point{T}) where T = one(typeof(x))\none(::Type{Point{T}}) where T = Point(one(T),one(T))\nPoint{T}(p::Point) where T = Point{T}(T(p.x),T(p.y))\n\nNow that we have defined some basic math around the Point type we can use a lot of generic behavior:\n\n#Create zero matrix of Points\nzeros(Point{Float64},3,2)\n\n3×2 Matrix{Point{Float64}}:\n Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)\n Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)\n Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)\n\n\n\n#Diagonal matrices\npointvec = (1:3) .* ones(Point{Float64})\n\n3-element Vector{Point{Float64}}:\n Point{Float64}(1.0, 1.0)\n Point{Float64}(2.0, 2.0)\n Point{Float64}(3.0, 3.0)\n\n\n\nusing LinearAlgebra\ndiagm(0=&gt;pointvec)\n\n3×3 Matrix{Point{Float64}}:\n Point{Float64}(1.0, 1.0)  Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)\n Point{Float64}(0.0, 0.0)  Point{Float64}(2.0, 2.0)  Point{Float64}(0.0, 0.0)\n Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)  Point{Float64}(3.0, 3.0)\n\n\n\nrand(4,5) * ones(Point{Float64},5,2)\n\n4×2 Matrix{Point{Float64}}:\n Point{Float64}(2.80571, 2.80571)  Point{Float64}(2.80571, 2.80571)\n Point{Float64}(1.71075, 1.71075)  Point{Float64}(1.71075, 1.71075)\n Point{Float64}(2.60002, 2.60002)  Point{Float64}(2.60002, 2.60002)\n Point{Float64}(3.47787, 3.47787)  Point{Float64}(3.47787, 3.47787)\n\n\n\nrange(Point(-1.0,-2.0),Point(3.0,4.0),length=10)\n\n10-element LinRange{Point{Float64}, Int64}:\n Point{Float64}(-1.0, -2.0), …, Point{Float64}(3.0, 4.0)",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Introduction to Julia"
+    ]
   },
   {
-    "objectID": "intro_julia.html#passing-functions-to-functions",
-    "href": "intro_julia.html#passing-functions-to-functions",
+    "objectID": "intro_julia.html#differences-between-broadcast-and-map",
+    "href": "intro_julia.html#differences-between-broadcast-and-map",
     "title": "Introduction to Julia",
-    "section": "Passing functions to functions",
-    "text": "Passing functions to functions"
+    "section": "Differences between broadcast and map",
+    "text": "Differences between broadcast and map\nFor single-argument functions there is no difference between map and broadcast. However, the functions differe in behavior when mutiple arguments are passed:\n\na = [0.1, 0.2, 0.3]\nb = [1.0 2.0 3.0]\n@show size(a)\n@show size(b)\n@show map(+,a,b)\n@show broadcast(+,a,b)\n@show a .+ b\nnothing\n\nsize(a) = (3,)\nsize(b) = (1, 3)\nmap(+, a, b) = [1.1, 2.2, 3.3]\nbroadcast(+, a, b) = [1.1 2.1 3.1; 1.2 2.2 3.2; 1.3 2.3 3.3]\na .+ b = [1.1 2.1 3.1; 1.2 2.2 3.2; 1.3 2.3 3.3]\n\n\nmap - iterates over all arguments separately, and passing them one by one to the applied function - agnostic of array shapes\nbroadcast - is dimension-aware - matches lengths of arrays along each array dimension - expanding dimensions of length 1 or non-existing dimensions at the end\nIn most cases one uses broadcast because it is easier to type using the dot-notation.\n\nreduce and foldl\n\nreduce(+,1:10)\n\n55\n\n\nWhat is happening behind the scenes?\n\nfunction myplus(x,y)\n    @show x,y\n    return x+y\nend\nreduce(myplus,1:10)\n\n(x, y) = (1, 2)\n(x, y) = (3, 3)\n(x, y) = (6, 4)\n(x, y) = (10, 5)\n(x, y) = (15, 6)\n(x, y) = (21, 7)\n(x, y) = (28, 8)\n(x, y) = (36, 9)\n(x, y) = (45, 10)\n\n\n55\n\n\nfoldl is very similar to reduce, but with left-associativty guaranteed (all elements of the array will be processed strictly in order), makes parallelization impossible.\nExample task: find the longest streak of true values in a Bool array.\n\nfunction streak(oldstate,newvalue)\n    maxstreak, currentstreak = oldstate\n    if newvalue #We extend the streak by 1\n        currentstreak += 1\n        maxstreak = max(currentstreak, maxstreak)\n    else\n        currentstreak = 0\n    end\n    return (maxstreak,currentstreak)\nend\nx = rand(Bool,1000)\nfoldl(streak,x,init=(0,0))\n\n(9, 3)\n\n\nmapreduce and mapfoldl combine both map and reduce. For example, to compute the sum of squares of a vector one can do:\n\nr = rand(1000)\nmapreduce(x-&gt;x*x,+,r)\n\n328.6635729801357\n\n\nTo compute the longest streak of random numbers larger than 0.9 we could do:\n\nmapfoldl(&gt;(0.1),streak,r,init=(0,0))\n\n(60, 29)",
+    "crumbs": [
+      "Home",
+      "Julia Introduction",
+      "Introduction to Julia"
+    ]
   }
 ]

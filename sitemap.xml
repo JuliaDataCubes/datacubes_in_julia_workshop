@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/exercise_yaxarrays.html</loc>
-    <lastmod>2024-08-23T13:31:53.167Z</lastmod>
+    <lastmod>2024-08-27T12:35:13.723Z</lastmod>
   </url>
   <url>
     <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/excursion_python.html</loc>
@@ -46,7 +46,7 @@
   </url>
   <url>
     <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/exercise_timeseries.html</loc>
-    <lastmod>2024-08-23T11:51:50.123Z</lastmod>
+    <lastmod>2024-08-26T08:13:40.468Z</lastmod>
   </url>
   <url>
     <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro_ndarrays.html</loc>
@@ -62,6 +62,6 @@
   </url>
   <url>
     <loc>https://JuliaDataCubes.github.io/datacubes_in_julia_workshop/intro_julia.html</loc>
-    <lastmod>2024-08-23T11:49:28.951Z</lastmod>
+    <lastmod>2024-08-27T12:31:05.038Z</lastmod>
   </url>
 </urlset>

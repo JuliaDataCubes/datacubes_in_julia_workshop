@@ -20,10 +20,44 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -66,6 +100,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -107,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Introduction to Julia</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_julia.html">Julia Introduction</a></li><li class="breadcrumb-item"><a href="./intro_julia.html">Introduction to Julia</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -143,8 +180,11 @@ ul.task-list li input[type="checkbox"] {
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
- <span class="menu-text">intro.qmd</span>
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="./intro_julia.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Introduction to Julia</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro-repl.html" class="sidebar-item-text sidebar-link">
@@ -162,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Julia Geo Ecosystem</span></a>
+ <span class="menu-text">Exercises</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -170,31 +210,14 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./vectordata.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Vector data handling</span></a>
+  <a href="./exercise_timeseries.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercise time series analysis and plotting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./rasterdata.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Raster data handling</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Raster data handling</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chunking.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chunking: Why and how?</span></a>
+  <a href="./exercise_yaxarrays.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercise YAXArrays</span></a>
   </div>
 </li>
       </ul>
@@ -212,8 +235,13 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#why-julia" id="toc-why-julia" class="nav-link active" data-scroll-target="#why-julia">Why Julia?</a></li>
   <li><a href="#basics-of-julia-programming" id="toc-basics-of-julia-programming" class="nav-link" data-scroll-target="#basics-of-julia-programming">Basics of Julia programming</a>
   <ul class="collapse">
+  <li><a href="#so-what-is-special-about-julia" id="toc-so-what-is-special-about-julia" class="nav-link" data-scroll-target="#so-what-is-special-about-julia">So what is special about Julia?</a></li>
   <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables">Variables</a></li>
-  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types">Data types</a></li>
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types">Data types</a>
+  <ul class="collapse">
+  <li><a href="#built-in-data-types" id="toc-built-in-data-types" class="nav-link" data-scroll-target="#built-in-data-types">Built-in Data types</a></li>
+  <li><a href="#custom-data-types" id="toc-custom-data-types" class="nav-link" data-scroll-target="#custom-data-types">Custom data types</a></li>
+  </ul></li>
   <li><a href="#loops" id="toc-loops" class="nav-link" data-scroll-target="#loops">Loops</a></li>
   <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a></li>
   <li><a href="#multiple-dispatch" id="toc-multiple-dispatch" class="nav-link" data-scroll-target="#multiple-dispatch">Multiple Dispatch</a></li>
@@ -221,9 +249,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#package-management" id="toc-package-management" class="nav-link" data-scroll-target="#package-management">Package management</a></li>
   <li><a href="#functional-programming" id="toc-functional-programming" class="nav-link" data-scroll-target="#functional-programming">Functional Programming</a>
   <ul class="collapse">
-  <li><a href="#passing-functions-to-functions" id="toc-passing-functions-to-functions" class="nav-link" data-scroll-target="#passing-functions-to-functions">Passing functions to functions</a></li>
+  <li><a href="#differences-between-broadcast-and-map" id="toc-differences-between-broadcast-and-map" class="nav-link" data-scroll-target="#differences-between-broadcast-and-map">Differences between broadcast and map</a>
+  <ul class="collapse">
+  <li><a href="#reduce-and-foldl" id="toc-reduce-and-foldl" class="nav-link" data-scroll-target="#reduce-and-foldl"><code>reduce</code> and <code>foldl</code></a></li>
   </ul></li>
-  <li><a href="#data-manipulation" id="toc-data-manipulation" class="nav-link" data-scroll-target="#data-manipulation">Data manipulation</a></li>
+  </ul></li>
   <li><a href="#allocations" id="toc-allocations" class="nav-link" data-scroll-target="#allocations">Allocations</a></li>
   </ul>
 </nav>
@@ -231,7 +261,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro_julia.html">Julia Introduction</a></li><li class="breadcrumb-item"><a href="./intro_julia.html">Introduction to Julia</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Introduction to Julia</h1>
 </div>
@@ -255,20 +285,348 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="basics-of-julia-programming" class="level1">
 <h1>Basics of Julia programming</h1>
+<div id="cd3fdc68" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple math</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">5</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="fl">2</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>7</code></pre>
+</div>
+</div>
+<div id="964112ff" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector math</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [<span class="fl">2.5</span>,<span class="fl">3.5</span>,<span class="fl">1.0</span>,<span class="fl">2.9</span>]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>4-element Vector{Float64}:
+ 3.5
+ 5.5
+ 4.0
+ 6.9</code></pre>
+</div>
+</div>
+<div id="09519988" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Functions look like math</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(x) <span class="op">=</span> <span class="fl">2</span>x<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fu">sin</span>(x)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>49.04107572533686</code></pre>
+</div>
+</div>
+<div id="7fa277ed" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply a function element-wise</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>.(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>4-element Vector{Float64}:
+  2.8414709848078967
+  8.909297426825681
+ 18.14112000805987
+ 31.243197504692073</code></pre>
+</div>
+</div>
+<div id="d3caca89" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Always be explicit when applying function vectorized</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>.([<span class="fl">1.0</span>,<span class="fl">2.0</span>,<span class="fl">3.0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>3-element Vector{Float64}:
+ 0.8414709848078965
+ 0.9092974268256817
+ 0.1411200080598672</code></pre>
+</div>
+</div>
+<div id="0bee9494" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix math</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">4</span>,<span class="fl">3</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="fu">ones</span>(<span class="fl">3</span>,<span class="fl">5</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>m<span class="op">*</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>4×5 Matrix{Float64}:
+ 1.77043  1.77043  1.77043  1.77043  1.77043
+ 1.21586  1.21586  1.21586  1.21586  1.21586
+ 1.94848  1.94848  1.94848  1.94848  1.94848
+ 2.15913  2.15913  2.15913  2.15913  2.15913</code></pre>
+</div>
+</div>
+<section id="so-what-is-special-about-julia" class="level3">
+<h3 class="anchored" data-anchor-id="so-what-is-special-about-julia">So what is special about Julia?</h3>
+<div id="b288e5a1" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mysum</span>(x)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="fu">zero</span>(<span class="fu">eltype</span>(x))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ix <span class="kw">in</span> x</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        s <span class="op">=</span> s<span class="op">+</span>ix</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>vec <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">1000000</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">mysum</span>(vec)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="pp">@time</span> <span class="fu">mysum</span>(vec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  0.009412 seconds (2.12 k allocations: 140.809 KiB, 88.51% compilation time)
+  0.000957 seconds (1 allocation: 16 bytes)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>500212.44185390515</code></pre>
+</div>
+</div>
+</section>
 <section id="variables" class="level2">
 <h2 class="anchored" data-anchor-id="variables">Variables</h2>
+<div id="8982ceb8" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables are names (tags, stickers) for Julia objects</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">2</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">3</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>x, y </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(3, 2)</code></pre>
+</div>
+</div>
 </section>
 <section id="data-types" class="level2">
 <h2 class="anchored" data-anchor-id="data-types">Data types</h2>
+<section id="built-in-data-types" class="level3">
+<h3 class="anchored" data-anchor-id="built-in-data-types">Built-in Data types</h3>
+<div id="1b9c4c42" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Numeric data types</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> T <span class="kw">in</span> (<span class="dt">UInt8</span>, <span class="dt">UInt16</span>, <span class="dt">UInt32</span>, <span class="dt">UInt64</span>, <span class="dt">Int8</span>, <span class="dt">Int16</span>, <span class="dt">Int32</span>, <span class="dt">Int64</span>, </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>          <span class="dt">Float16</span>, <span class="dt">Float32</span>, <span class="dt">Float64</span>, <span class="dt">ComplexF16</span>, <span class="dt">ComplexF32</span>, <span class="dt">ComplexF64</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@show</span> <span class="fu">T</span>(<span class="fl">5</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>T(5) = 0x05
+T(5) = 0x0005
+T(5) = 0x00000005
+T(5) = 0x0000000000000005
+T(5) = 5
+T(5) = 5
+T(5) = 5
+T(5) = 5
+T(5) = Float16(5.0)
+T(5) = 5.0f0
+T(5) = 5.0
+T(5) = Float16(5.0) + Float16(0.0)im
+T(5) = 5.0f0 + 0.0f0im
+T(5) = 5.0 + 0.0im</code></pre>
+</div>
+</div>
+<div id="437a3318" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typeof</span>([<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>])</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">typeof</span>([<span class="fl">1.0</span>,<span class="fl">2.0</span>,<span class="fl">3.0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>typeof([1, 2, 3]) = Vector{Int64}
+typeof([1.0, 2.0, 3.0]) = Vector{Float64}</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="ansi-escaped-output">
+<pre>Vector{Float64}<span class="ansi-bright-black-fg"> (alias for </span><span class="ansi-bright-black-fg">Array{Float64, 1}</span><span class="ansi-bright-black-fg">)</span></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="custom-data-types" class="level3">
+<h3 class="anchored" data-anchor-id="custom-data-types">Custom data types</h3>
+<p><code>struct</code>s are basic types composing several fields into a single object.</p>
+<div id="911f5c94" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> PointF</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>x<span class="op">::</span><span class="dt">Float64</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>y<span class="op">::</span><span class="dt">Float64</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fu">PointF</span>(<span class="fl">2.0</span>,<span class="fl">3.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>PointF(2.0, 3.0)</code></pre>
+</div>
+</div>
+<p>The fields of a struct may or may not be typed</p>
+<div id="b9637e26" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> PointUntyped</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>y</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fu">PointUntyped</span>(<span class="fl">2</span>.f0, <span class="fl">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>PointUntyped(2.0f0, 3)</code></pre>
+</div>
+</div>
+<div id="21434383" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">PointUntyped</span>(<span class="st">"Hallo"</span>, sin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>PointUntyped("Hallo", sin)</code></pre>
+</div>
+</div>
+<p>Parametric types can be used to generic specialized code for a variety of field types.</p>
+<div id="14137bc4" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Point{T<span class="op">&lt;:</span><span class="dt">Number</span>}</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>x<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>y<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fu">Point</span>(<span class="fl">3</span>.f0,<span class="fl">2</span>.f0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>Point{Float32}(3.0f0, 2.0f0)</code></pre>
+</div>
+</div>
+</section>
 </section>
 <section id="loops" class="level2">
 <h2 class="anchored" data-anchor-id="loops">Loops</h2>
+<p>Loops are written using the <code>for</code> keyword and process any object implementing the <a href="https://docs.julialang.org/en/v1/manual/interfaces/#man-interface-iteration">iteration interface</a></p>
+<div id="d7703de9" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(i)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> letter <span class="kw">in</span> <span class="st">"hello"</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(letter)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1
+2
+3
+h
+e
+l
+l
+o</code></pre>
+</div>
+</div>
 </section>
 <section id="functions" class="level2">
 <h2 class="anchored" data-anchor-id="functions">Functions</h2>
+<p>There are 3 ways to define functions in Julia:</p>
+<p>Long form:</p>
+<div id="67a976b4" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">f1</span>(x, y)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">+</span>y</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>f1 (generic function with 1 method)</code></pre>
+</div>
+</div>
+<p>Note that the <code>return</code> keyword is optional. If it is missing, a function always returns the result of the last statement.</p>
+<p>Short form:</p>
+<div id="e09e2da9" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f2</span>(x, y) <span class="op">=</span> x <span class="op">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>f2 (generic function with 1 method)</code></pre>
+</div>
+</div>
+<p>Very useful for writing short one-liners.</p>
+<p>Anonymous functions (similar to lambdas in python), will be important in the Functional Programming section:</p>
+<div id="96fc06e9" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>f3 <span class="op">=</span> (x,y) <span class="op">-&gt;</span> x <span class="op">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>#15 (generic function with 1 method)</code></pre>
+</div>
+</div>
+<p>They all define the same function:</p>
+<div id="1a329841" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f1</span>(<span class="fl">1</span>,<span class="fl">2</span>) <span class="op">==</span> <span class="fu">f2</span>(<span class="fl">1</span>,<span class="fl">2</span>) <span class="op">==</span> <span class="fu">f3</span>(<span class="fl">1</span>,<span class="fl">2</span>) <span class="op">==</span> <span class="fl">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>true</code></pre>
+</div>
+</div>
 </section>
 <section id="multiple-dispatch" class="level2">
 <h2 class="anchored" data-anchor-id="multiple-dispatch">Multiple Dispatch</h2>
+<p>In object-oriented programming languages methods (behavior) are part of the class namespace itself and can be used to implement generic behavior.</p>
+<pre class="{python}"><code>class Point():
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+
+    def abs(self):
+        return self.x*self.x + self.y*self.y
+
+p = Point(3,2)
+p.abs()</code></pre>
+<p>In Julia, functions are first-class objects and can have multiple methods for different combinations of argument types.</p>
+<div id="c0ab23b7" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">absolute</span>(p<span class="op">::</span><span class="dt">Point</span>) <span class="op">=</span> p.x<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> p.y<span class="op">^</span><span class="fl">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>absolute (generic function with 1 method)</code></pre>
+</div>
+</div>
+<p>This defines a new function <code>absolute</code> with a single method</p>
+<div id="5d262046" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(absolute)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+# 1 method for generic function <b>absolute</b> from [35mMain[39m:<ul><li> absolute(p::<b>Point</b>) in Main at In[21]:1</li> </ul>
+</div>
+</div>
+<div id="ad300ec2" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">absolute</span>(<span class="fu">Point</span>(<span class="fl">2</span>,<span class="fl">3</span>))</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">absolute</span>(<span class="fu">Point</span>(<span class="fl">2.0</span>,<span class="fl">3.0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>absolute(Point(2, 3)) = 13
+absolute(Point(2.0, 3.0)) = 13.0</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>13.0</code></pre>
+</div>
+</div>
+<p>In addition to defining new functions, existing functions can be extended to work for our custom data types:</p>
+<div id="d184c210" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Base</span>: +, -, *, /, zero, one, oneunit</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">+</span>(p1<span class="op">::</span><span class="dt">Point</span>, p2<span class="op">::</span><span class="dt">Point</span>) <span class="op">=</span> <span class="fu">Point</span>(p1.x<span class="op">+</span>p2.x, p1.y<span class="op">+</span>p2.y)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">-</span>(p1<span class="op">::</span><span class="dt">Point</span>, p2<span class="op">::</span><span class="dt">Point</span>) <span class="op">=</span> <span class="fu">Point</span>(p1.x<span class="op">-</span>p2.x, p1.y<span class="op">-</span>p2.y)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">*</span>(x<span class="op">::</span><span class="dt">Number</span>, p<span class="op">::</span><span class="dt">Point</span>) <span class="op">=</span> <span class="fu">Point</span>(x<span class="op">*</span>p.x, x<span class="op">*</span>p.y)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="op">/</span>(p<span class="op">::</span><span class="dt">Point</span>,x<span class="op">::</span><span class="dt">Number</span>) <span class="op">=</span> <span class="fu">Point</span>(p.x<span class="op">/</span>x,p.y<span class="op">/</span>x)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">-</span>(p<span class="op">::</span><span class="dt">Point</span>) <span class="op">=</span> <span class="fu">Point</span>(<span class="op">-</span>p.x,<span class="op">-</span>p.y)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">zero</span>(x<span class="op">::</span><span class="dt">Point{T}</span>) <span class="kw">where</span> T <span class="op">=</span> <span class="fu">zero</span>(<span class="fu">typeof</span>(x))</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="fu">zero</span>(<span class="op">::</span><span class="dt">Type{Point{T}}</span>) <span class="kw">where</span> T <span class="op">=</span> <span class="fu">Point</span>(<span class="fu">zero</span>(T),<span class="fu">zero</span>(T))</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="fu">one</span>(x<span class="op">::</span><span class="dt">Point{T}</span>) <span class="kw">where</span> T <span class="op">=</span> <span class="fu">one</span>(<span class="fu">typeof</span>(x))</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="fu">one</span>(<span class="op">::</span><span class="dt">Type{Point{T}}</span>) <span class="kw">where</span> T <span class="op">=</span> <span class="fu">Point</span>(<span class="fu">one</span>(T),<span class="fu">one</span>(T))</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="fu">Point</span><span class="dt">{T}</span>(p<span class="op">::</span><span class="dt">Point</span>) <span class="kw">where</span> T <span class="op">=</span> <span class="fu">Point</span><span class="dt">{T}</span>(<span class="fu">T</span>(p.x),<span class="fu">T</span>(p.y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have defined some basic math around the Point type we can use a lot of generic behavior:</p>
+<div id="8a584228" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create zero matrix of Points</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">zeros</span>(Point{<span class="dt">Float64</span>},<span class="fl">3</span>,<span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>3×2 Matrix{Point{Float64}}:
+ Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)
+ Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)
+ Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)</code></pre>
+</div>
+</div>
+<div id="26827845" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Diagonal matrices</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>pointvec <span class="op">=</span> (<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>) <span class="op">.*</span> <span class="fu">ones</span>(Point{<span class="dt">Float64</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>3-element Vector{Point{Float64}}:
+ Point{Float64}(1.0, 1.0)
+ Point{Float64}(2.0, 2.0)
+ Point{Float64}(3.0, 3.0)</code></pre>
+</div>
+</div>
+<div id="e8c3c646" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diagm</span>(<span class="fl">0</span><span class="op">=&gt;</span>pointvec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>3×3 Matrix{Point{Float64}}:
+ Point{Float64}(1.0, 1.0)  Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)
+ Point{Float64}(0.0, 0.0)  Point{Float64}(2.0, 2.0)  Point{Float64}(0.0, 0.0)
+ Point{Float64}(0.0, 0.0)  Point{Float64}(0.0, 0.0)  Point{Float64}(3.0, 3.0)</code></pre>
+</div>
+</div>
+<div id="20bbed4f" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rand</span>(<span class="fl">4</span>,<span class="fl">5</span>) <span class="op">*</span> <span class="fu">ones</span>(Point{<span class="dt">Float64</span>},<span class="fl">5</span>,<span class="fl">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>4×2 Matrix{Point{Float64}}:
+ Point{Float64}(2.80571, 2.80571)  Point{Float64}(2.80571, 2.80571)
+ Point{Float64}(1.71075, 1.71075)  Point{Float64}(1.71075, 1.71075)
+ Point{Float64}(2.60002, 2.60002)  Point{Float64}(2.60002, 2.60002)
+ Point{Float64}(3.47787, 3.47787)  Point{Float64}(3.47787, 3.47787)</code></pre>
+</div>
+</div>
+<div id="7f30d97a" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(<span class="fu">Point</span>(<span class="op">-</span><span class="fl">1.0</span>,<span class="op">-</span><span class="fl">2.0</span>),<span class="fu">Point</span>(<span class="fl">3.0</span>,<span class="fl">4.0</span>),length<span class="op">=</span><span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>10-element LinRange{Point{Float64}, Int64}:
+ Point{Float64}(-1.0, -2.0), …, Point{Float64}(3.0, 4.0)</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="package-management" class="level1">
@@ -276,15 +634,237 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="functional-programming" class="level1">
 <h1>Functional Programming</h1>
-<section id="passing-functions-to-functions" class="level2">
-<h2 class="anchored" data-anchor-id="passing-functions-to-functions">Passing functions to functions</h2>
+<p>Transform an array by applying the same function to every element. We can do this using a loop:</p>
+<div id="1d55787c" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">100</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> <span class="fu">similar</span>(a)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fu">eachindex</span>(a)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    out[i] <span class="op">=</span> <span class="fu">sqrt</span>(a[i])</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>100-element Vector{Float64}:
+ 0.9017308513974759
+ 0.6107436256866622
+ 0.30906047116918955
+ 0.5273179807904349
+ 0.26883071925753893
+ 0.7948613229136979
+ 0.4417917559934639
+ 0.800377931881355
+ 0.2686641490532793
+ 0.49861465971799185
+ 0.9322586570934711
+ 0.6169151469442922
+ 0.6487142891936493
+ ⋮
+ 0.7605460148397245
+ 0.6507338747549297
+ 0.7406626305311221
+ 0.4940115624561257
+ 0.35921222458088004
+ 0.607764438307303
+ 0.9259348346977507
+ 0.4270694347347259
+ 0.9490887301102343
+ 0.23491395525292227
+ 0.44037664096428036
+ 0.9476441804793988</code></pre>
+</div>
+</div>
+<p>In the end we “map” a function over an array, so the following does the same as our loop defined above.</p>
+<div id="7e6182ed" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(sqrt,a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>100-element Vector{Float64}:
+ 0.9017308513974759
+ 0.6107436256866622
+ 0.30906047116918955
+ 0.5273179807904349
+ 0.26883071925753893
+ 0.7948613229136979
+ 0.4417917559934639
+ 0.800377931881355
+ 0.2686641490532793
+ 0.49861465971799185
+ 0.9322586570934711
+ 0.6169151469442922
+ 0.6487142891936493
+ ⋮
+ 0.7605460148397245
+ 0.6507338747549297
+ 0.7406626305311221
+ 0.4940115624561257
+ 0.35921222458088004
+ 0.607764438307303
+ 0.9259348346977507
+ 0.4270694347347259
+ 0.9490887301102343
+ 0.23491395525292227
+ 0.44037664096428036
+ 0.9476441804793988</code></pre>
+</div>
+</div>
+<p>There is also the very similar <code>broadcast</code> function:</p>
+<div id="ea6cd036" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">broadcast</span>(sqrt,a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>100-element Vector{Float64}:
+ 0.9017308513974759
+ 0.6107436256866622
+ 0.30906047116918955
+ 0.5273179807904349
+ 0.26883071925753893
+ 0.7948613229136979
+ 0.4417917559934639
+ 0.800377931881355
+ 0.2686641490532793
+ 0.49861465971799185
+ 0.9322586570934711
+ 0.6169151469442922
+ 0.6487142891936493
+ ⋮
+ 0.7605460148397245
+ 0.6507338747549297
+ 0.7406626305311221
+ 0.4940115624561257
+ 0.35921222458088004
+ 0.607764438307303
+ 0.9259348346977507
+ 0.4270694347347259
+ 0.9490887301102343
+ 0.23491395525292227
+ 0.44037664096428036
+ 0.9476441804793988</code></pre>
+</div>
+</div>
+<p>Instead of calling the broadcast function explicitly, most Julia programmers would use the shorthand dot-syntax:</p>
+<div id="d9dc5f2e" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>.(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>100-element Vector{Float64}:
+ 0.9017308513974759
+ 0.6107436256866622
+ 0.30906047116918955
+ 0.5273179807904349
+ 0.26883071925753893
+ 0.7948613229136979
+ 0.4417917559934639
+ 0.800377931881355
+ 0.2686641490532793
+ 0.49861465971799185
+ 0.9322586570934711
+ 0.6169151469442922
+ 0.6487142891936493
+ ⋮
+ 0.7605460148397245
+ 0.6507338747549297
+ 0.7406626305311221
+ 0.4940115624561257
+ 0.35921222458088004
+ 0.607764438307303
+ 0.9259348346977507
+ 0.4270694347347259
+ 0.9490887301102343
+ 0.23491395525292227
+ 0.44037664096428036
+ 0.9476441804793988</code></pre>
+</div>
+</div>
+<p>which gets translated to the former expression when lowering the code.</p>
+<section id="differences-between-broadcast-and-map" class="level2">
+<h2 class="anchored" data-anchor-id="differences-between-broadcast-and-map">Differences between broadcast and map</h2>
+<p>For single-argument functions there is no difference between map and broadcast. However, the functions differe in behavior when mutiple arguments are passed:</p>
+<div id="a332275e" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>]</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> [<span class="fl">1.0</span> <span class="fl">2.0</span> <span class="fl">3.0</span>]</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">size</span>(a)</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">size</span>(b)</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">map</span>(<span class="op">+</span>,a,b)</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> <span class="fu">broadcast</span>(<span class="op">+</span>,a,b)</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="pp">@show</span> a <span class="op">.+</span> b</span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="cn">nothing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>size(a) = (3,)
+size(b) = (1, 3)
+map(+, a, b) = [1.1, 2.2, 3.3]
+broadcast(+, a, b) = [1.1 2.1 3.1; 1.2 2.2 3.2; 1.3 2.3 3.3]
+a .+ b = [1.1 2.1 3.1; 1.2 2.2 3.2; 1.3 2.3 3.3]</code></pre>
+</div>
+</div>
+<p><code>map</code> - iterates over all arguments separately, and passing them one by one to the applied function - agnostic of array shapes</p>
+<p><code>broadcast</code> - is dimension-aware - matches lengths of arrays along each array dimension - expanding dimensions of length 1 or non-existing dimensions at the end</p>
+<p>In most cases one uses broadcast because it is easier to type using the dot-notation.</p>
+<section id="reduce-and-foldl" class="level3">
+<h3 class="anchored" data-anchor-id="reduce-and-foldl"><code>reduce</code> and <code>foldl</code></h3>
+<div id="3a6058d6" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(<span class="op">+</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>55</code></pre>
+</div>
+</div>
+<p>What is happening behind the scenes?</p>
+<div id="2f1f10c4" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">myplus</span>(x,y)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@show</span> x,y</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">+</span>y</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(myplus,<span class="fl">1</span><span class="op">:</span><span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(x, y) = (1, 2)
+(x, y) = (3, 3)
+(x, y) = (6, 4)
+(x, y) = (10, 5)
+(x, y) = (15, 6)
+(x, y) = (21, 7)
+(x, y) = (28, 8)
+(x, y) = (36, 9)
+(x, y) = (45, 10)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>55</code></pre>
+</div>
+</div>
+<p><code>foldl</code> is very similar to reduce, but with left-associativty guaranteed (all elements of the array will be processed strictly in order), makes parallelization impossible.</p>
+<p>Example task: find the longest streak of true values in a Bool array.</p>
+<div id="ed28b2c7" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">streak</span>(oldstate,newvalue)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    maxstreak, currentstreak <span class="op">=</span> oldstate</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> newvalue <span class="co">#We extend the streak by 1</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>        currentstreak <span class="op">+=</span> <span class="fl">1</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>        maxstreak <span class="op">=</span> <span class="fu">max</span>(currentstreak, maxstreak)</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>        currentstreak <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (maxstreak,currentstreak)</span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fu">rand</span>(<span class="dt">Bool</span>,<span class="fl">1000</span>)</span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a><span class="fu">foldl</span>(streak,x,init<span class="op">=</span>(<span class="fl">0</span>,<span class="fl">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<pre><code>(9, 3)</code></pre>
+</div>
+</div>
+<p><code>mapreduce</code> and <code>mapfoldl</code> combine both <code>map</code> and reduce. For example, to compute the sum of squares of a vector one can do:</p>
+<div id="419df3e2" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">1000</span>)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mapreduce</span>(x<span class="op">-&gt;</span>x<span class="op">*</span>x,<span class="op">+</span>,r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<pre><code>328.6635729801357</code></pre>
+</div>
+</div>
+<p>To compute the longest streak of random numbers larger than 0.9 we could do:</p>
+<div id="72cfdfb2" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mapfoldl</span>(<span class="fu">&gt;</span>(<span class="fl">0.1</span>),streak,r,init<span class="op">=</span>(<span class="fl">0</span>,<span class="fl">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<pre><code>(60, 29)</code></pre>
+</div>
+</div>
 </section>
 </section>
-<section id="data-manipulation" class="level1">
-<h1>Data manipulation</h1>
 </section>
 <section id="allocations" class="level1">
 <h1>Allocations</h1>
+<p>Last exercise: In a vector of numbers, count how often a consecutive value is larger than its predecessor.</p>
 
 
 </section>
