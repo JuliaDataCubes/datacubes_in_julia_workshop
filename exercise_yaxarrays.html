@@ -398,7 +398,11 @@
 <div class="quarto-title-author-name">
 Felix Cremer, Fabian Gans 
 </div>
-</div>
+        <p class="quarto-title-affiliation">
+            Max Planck Institute for Biogeochemistry<br>
+            <a href="https://nfdi4earth.de/2facilitate/advancing-tools">NFDI4Earth Advancing Tools</a>
+          </p>
+    </div>
 </div>
 
 </section>
@@ -418,7 +422,7 @@ Felix Cremer, Fabian Gans
 </section>
 <section id="dataset-download" class="slide level2">
 <h2>Dataset download</h2>
-<div id="2" class="cell" data-execution_count="1">
+<div id="2" class="cell" data-execution_count="0">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a></a><span class="im">using</span> <span class="bu">YAXArrays</span></span>
 <span id="cb1-2"><a></a><span class="im">using</span> <span class="bu">Zarr</span></span>
 <span id="cb1-3"><a></a><span class="im">using</span> <span class="bu">DiskArrays</span></span>
@@ -433,35 +437,12 @@ Felix Cremer, Fabian Gans
 <span id="cb1-12"><a></a>timestart <span class="op">=</span> <span class="fu">first</span>(<span class="fu">dims</span>(era5,Ti)[lastchunk[timedim]])</span>
 <span id="cb1-13"><a></a>timeend <span class="op">=</span> <span class="fu">last</span>(<span class="fu">dims</span>(era5,Ti))</span>
 <span id="cb1-14"><a></a>sub <span class="op">=</span> era5[Ti<span class="op">=</span>timestart<span class="op">..</span>timeend, longitude<span class="op">=</span><span class="fl">0</span><span class="op">..</span><span class="fl">14.76</span>,latitude<span class="op">=</span><span class="fl">30.1</span><span class="op">..</span><span class="fl">60</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-bright-black-fg">╭───────────────────────────────────────────────────╮</span>
-<span class="ansi-bright-black-fg">│ </span><span style="color:rgb(255,135,95)">60</span>×<span style="color:rgb(0,135,215)">120</span>×<span style="color:rgb(95,215,255)">9131</span>×<span style="color:rgb(255,95,135)">5</span> YAXArray{Union{Missing, Float64},4}<span class="ansi-bright-black-fg"> │</span>
-<span class="ansi-bright-black-fg">├───────────────────────────────────────────────────┴───────────────────��� dims ┐</span>
-  <span style="color:rgb(255,135,95)">↓ </span><span style="color:rgb(255,135,95)">longitude</span> Sampled{Float32} <span style="color:rgb(255,135,95)">0.0f0:0.25f0:14.75f0</span> <span style="color:rgb(128,128,128)">ForwardOrdered</span> <span style="color:rgb(128,128,128)">Regular</span> <span style="color:rgb(128,128,128)">Points</span>,
-  <span style="color:rgb(0,135,215)">→ </span><span style="color:rgb(0,135,215)">latitude </span> Sampled{Float32} <span style="color:rgb(0,135,215)">60.0f0:-0.25f0:30.25f0</span> <span style="color:rgb(128,128,128)">ReverseOrdered</span> <span style="color:rgb(128,128,128)">Regular</span> <span style="color:rgb(128,128,128)">Points</span>,
-  <span style="color:rgb(95,215,255)">↗ </span><span style="color:rgb(95,215,255)">Ti       </span> Sampled{Dates.DateTime} <span style="color:rgb(95,215,255)">[1998-01-01T00:00:00, …, 2022-12-31T00:00:00]</span> <span style="color:rgb(128,128,128)">ForwardOrdered</span> <span style="color:rgb(128,128,128)">Irregular</span> <span style="color:rgb(128,128,128)">Points</span>,
-  <span style="color:rgb(255,95,135)">⬔ </span><span style="color:rgb(255,95,135)">Variable </span> Categorical{String} <span style="color:rgb(255,95,135)">["tp", "pet", "t2mmin", "t2mmax", "t2m"]</span> <span style="color:rgb(128,128,128)">Unordered</span>
-<span class="ansi-bright-black-fg">├─────────���────────────────────────────────────────────────────────── metadata ┤</span>
-  Dict{String, Any} with 7 entries:
-  "long_name"     =&gt; "2 metre temperature"
-  "scale_factor"  =&gt; 0.00160009
-  "_FillValue"    =&gt; -32767.0
-  "missing_value" =&gt; -32767
-  "units"         =&gt; "K"
-  "add_offset"    =&gt; 268.035
-  "aggfun"        =&gt; "mean"
-<span class="ansi-bright-black-fg">├──────���──────────────────────────────────────────────────────────── file size ┤</span> 
-  file size: 2.45 GB
-<span class="ansi-bright-black-fg">└──────────────────────────────────────────────────────────────────────────────┘</span></pre>
-</div>
-</div>
 </div>
 
 <div class="quarto-auto-generated-content">
 <p><img src="images/logo2_mpi_nfdi4earth.png" class="slide-logo"></p>
 <div class="footer footer-default">
-
+<p><a href="https://juliadatacubes.github.io/datacubes_in_julia_workshop/">Datacubes in Julia</a></p>
 </div>
 </div>
 </section></section>
