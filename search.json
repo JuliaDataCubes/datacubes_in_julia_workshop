@@ -171,7 +171,7 @@
     "href": "intro-pkg.html#activating-your-environment",
     "title": "Introduction to the Package Manager",
     "section": "Activating your environment",
-    "text": "Activating your environment\nactivate .",
+    "text": "Activating your environment\nactivate .\n# You can use any path that is on your computer\n\nSee what is installed\n\nst\n\nResolve your package versions\n\nresolve",
     "crumbs": [
       "Home",
       "Julia Introduction",
@@ -183,7 +183,7 @@
     "href": "intro-pkg.html#package-handling",
     "title": "Introduction to the Package Manager",
     "section": "Package handling",
-    "text": "Package handling\n```julia add Example\n\nFurther reading\n\nPkg.jl documentation\nPkg.jl and Julia Environments for Beginners\nModern Julia workflows on environments",
+    "text": "Package handling\nadd Example\n\nFurther reading\n\nPkg.jl documentation\nPkg.jl and Julia Environments for Beginners\nModern Julia workflows on environments",
     "crumbs": [
       "Home",
       "Julia Introduction",
